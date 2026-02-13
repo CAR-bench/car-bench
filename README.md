@@ -4,10 +4,11 @@
 
 [![Paper](https://img.shields.io/badge/arXiv-2601.22027-b31b1b.svg)](https://arxiv.org/abs/2601.22027)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Website](https://img.shields.io/badge/Website-CAR--bench-blue)](https://car-bench.github.io/car-bench/)
 
 *A benchmark for evaluating epistemic reliability of multi-turn, tool-using LLM agents under uncertainty*
 
-[Paper](#citation) • [Installation](#installation) • [Usage](#usage) • [Results](#baseline-results) • [Documentation](USAGE.md)
+[Website](https://car-bench.github.io/car-bench/) • [Paper](#citation) • [Installation](#installation) • [Usage](#usage) • [Results](#baseline-results) • [Documentation](USAGE.md)
 
 </div>
 
