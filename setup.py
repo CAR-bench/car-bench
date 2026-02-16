@@ -13,6 +13,7 @@ setup(
         "huggingface_hub>=0.25.0",
         "litellm>=1.80.16",
         "matplotlib>=3.10.5",
+        "mcp>=1.0.0",
         "networkx>=3.4.2",
         "numpy>=2.3.2",
         "pandas>=2.3.1",

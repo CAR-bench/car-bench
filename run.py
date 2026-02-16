@@ -310,11 +310,19 @@ def run(
             token_tool_execution_errors = tool_execution_errors_during_runtime.set([])
             token_end_conversation_failure = end_conversation_failure.set([])
             try:
-                # Pass agent configuration to orchestrator
-                orchestrator = AgentOrchestrator(
-                    local_agent,
-                    remove_planning_tools=not args.planning_and_thinking_tool,
-                )
+                # Select orchestrator based on agent strategy
+                if args.agent_strategy == "terminal":
+                    from car_bench.terminal.orchestrator import TerminalOrchestrator
+
+                    orchestrator = TerminalOrchestrator(
+                        local_agent,
+                        remove_planning_tools=not args.planning_and_thinking_tool,
+                    )
+                else:
+                    orchestrator = AgentOrchestrator(
+                        local_agent,
+                        remove_planning_tools=not args.planning_and_thinking_tool,
+                    )
                 res = orchestrator.execute(
                     env=isolated_env,
                     task_index=idx,
@@ -405,6 +413,20 @@ def agent_factory(
             interleaved_thinking=args.interleaved_thinking,
             reasoning_effort=args.reasoning_effort,
         )
+    elif args.agent_strategy == "terminal":
+        from car_bench.agents.terminal_agent import TerminalAgent
+
+        if not args.terminal_agent_command:
+            raise ValueError(
+                "--terminal-agent-command is required when using --agent-strategy=terminal"
+            )
+        return TerminalAgent(
+            agent_command=args.terminal_agent_command,
+            agent_args=args.terminal_agent_args or [],
+            tools_info=tools_info,
+            wiki=wiki,
+            timeout=args.terminal_agent_timeout,
+        )
     else:
         raise ValueError(f"Unknown agent strategy: {args.agent_strategy}")
 
@@ -478,7 +500,7 @@ def main():
         help="The model provider for the policy evaluator",
     )
     parser.add_argument(
-        "--agent-strategy", type=str, default="tool-calling", choices=["tool-calling"]
+        "--agent-strategy", type=str, default="tool-calling", choices=["tool-calling", "terminal"]
     )
     parser.add_argument(
         "--temperature",
@@ -590,6 +612,26 @@ def main():
         type=bool,
         default=True,
         help="Whether to use the planning and thinking tool",
+    )
+    # Terminal agent arguments
+    parser.add_argument(
+        "--terminal-agent-command",
+        type=str,
+        default=None,
+        help="Command to launch the terminal agent (e.g., 'claude', 'python my_agent.py'). Required when --agent-strategy=terminal",
+    )
+    parser.add_argument(
+        "--terminal-agent-args",
+        type=str,
+        nargs="*",
+        default=[],
+        help="Additional arguments for the terminal agent command",
+    )
+    parser.add_argument(
+        "--terminal-agent-timeout",
+        type=int,
+        default=300,
+        help="Maximum seconds per task for terminal agent (default: 300)",
     )
     args = parser.parse_args()
 
