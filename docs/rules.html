@@ -72,7 +72,6 @@
                 <li><a href="#prohibited">Prohibited Behaviors</a></li>
                 <li><a href="#submission">Submission Mechanics</a></li>
                 <li><a href="#code-release">Code Release</a></li>
-                <li><a href="#reports">Technical Reports</a></li>
                 <li><a href="#data-use">Data Use</a></li>
             </ol>
         </div>
@@ -115,7 +114,7 @@
                 <li>Retrieval-augmented generation (RAG) over environment data</li>
                 <li>External knowledge bases or pre-computed lookup tables (provided they do not encode test set answers)</li>
             </ul>
-            <p><strong>Cerebras Fast-Reasoning Track:</strong> Track 2 submissions must use the direct Cerebras-hosted <code>gpt-oss</code> inference setup described in the starter kit. Agents must expose the same dockerized A2A interface as Track 1. Multi-pass reasoning, private planning, self-verification, retries, ensembles, and parallel calls are allowed, but the agent must respect Track 2 inference-compute constraints and must not exploit evaluator internals. For each baseline LLM step, participants may use up to 5 sequential LLM calls; parallel calls inside each step do not count toward this sequential limit. Token usage may be up to 500k tokens on average per task, including input, reasoning, and output tokens. Token usage must be tracked through A2A <code>turn_metrics</code> token fields and may be counterchecked. Track 2 reports should include an architecture diagram so the sequential-call constraint can be audited. Cerebras will provide increased rate limits compared with a free personal account; access details will follow soon.</p>
+            <p><strong>Cerebras Fast-Reasoning Track:</strong> Track 2 submissions must use the direct Cerebras-hosted <code>gpt-oss</code> inference setup described in the starter kit. Agents must expose the same dockerized A2A interface as Track 1. Multi-pass reasoning, private planning, self-verification, retries, ensembles, and parallel calls are allowed, but the agent must respect Track 2 inference-compute constraints and must not exploit evaluator internals. For each baseline LLM step, participants may use up to 5 sequential LLM calls; parallel calls inside each step do not count toward this sequential limit. Token usage may be up to 500k tokens on average per task, including input, reasoning, and output tokens. Token usage must be tracked through A2A <code>turn_metrics</code> token fields and may be counterchecked. Cerebras will provide increased rate limits compared with a free personal account; access details will follow soon.</p>
         </div>
 
         <!-- 4. Prohibited behaviors -->
@@ -143,11 +142,10 @@
                 <li>All LLM model names, provider routes, deployment names, API bases, service tiers, and reasoning-effort selectors must be configurable through environment variables.</li>
                 <li><strong>Development validation:</strong> Participants may run public local, Docker, and GHCR scenario configs themselves before submitting.</li>
                 <li><strong>Hidden test set:</strong> One final official evaluation round on Jul 19. The planned Jul 10 score-return test round will not run; organizers will contact teams if there are issues with their final submission.</li>
-                <li><strong>Technical report:</strong> A 4-page technical report using the <a href="https://www.ijcai.org/authors_kit" target="_blank" rel="noopener noreferrer">IJCAI author kit</a>, excluding references, with a CAR-bench citation is required for every final submission. Track 2 reports should include an architecture diagram for compute-use audit. Deadline: July 26, 2026 (AoE).</li>
                 <li><strong>Award criteria:</strong> Track 1 Rank Award is decided solely by hidden-set Pass^3. Track 1 Innovation Award is judged on real-world deployment criteria including cost, latency, innovative methods, and performance relative to the LLM models used. Track 2 Cerebras Award focuses on compute-time-aware faster-inference methods, latency, and performance. See the <a href="submission.html">submission page</a> for details.</li>
             </ul>
             <div class="callout warning">
-                <strong>Submission form opens Monday, July 13, 2026.</strong> The Google Form link will be published on the <a href="submission.html">submission page</a> and announced on Discord.
+                <strong>The final-agent submission stage has concluded.</strong> Current technical report requirements and the active form are maintained on the <a href="submission.html">submission page</a>.
             </div>
         </div>
 
@@ -160,22 +158,9 @@
             </ul>
         </div>
 
-        <!-- 7. Technical reports -->
-        <div class="rule-section" id="reports">
-            <h2>7. Technical Reports</h2>
-            <ul>
-                <li>A 4-page technical report using the <a href="https://www.ijcai.org/authors_kit" target="_blank" rel="noopener noreferrer">IJCAI author kit</a>, excluding references, is <strong>required for every final submission</strong>.</li>
-                <li><strong>Deadline:</strong> July 26, 2026 (AoE).</li>
-                <li>Reports should describe the approach, model and harness architecture, design decisions, validation results, ablation results or lessons learned, and any compute or rate-limit assumptions.</li>
-                <li>Reports must cite the CAR-bench paper.</li>
-                <li>Reports will be published as non-archival proceedings on the competition website. arXiv submission is encouraged and endorsed, but not required.</li>
-                <li>The submission portal link will be added to the <a href="submission.html">submission page</a> when available.</li>
-            </ul>
-        </div>
-
-        <!-- 8. Data use -->
+        <!-- 7. Data use -->
         <div class="rule-section" id="data-use">
-            <h2>8. Data Use</h2>
+            <h2>7. Data Use</h2>
             <ul>
                 <li>The starter kit and public CAR-bench data are released under the <a href="https://github.com/CAR-bench/car-bench-ijcai/blob/main/LICENSE" target="_blank">MIT License</a>.</li>
                 <li>Participants may use the training and dev data for other research, provided they cite the original paper.</li>
