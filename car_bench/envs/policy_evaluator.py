@@ -7,9 +7,98 @@ from typing import Any, Dict, List, Optional, Union
 from litellm import completion
 from pydantic import BaseModel
 
+from car_bench.model_utils.sampling import evaluation_sampling_parameters
+
 policy_errors_during_runtime: contextvars.ContextVar[List[str]] = (
     contextvars.ContextVar("policy_errors_during_runtime")
 )
+
+
+def _json_object(value: Any) -> Dict[str, Any]:
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, str):
+        try:
+            parsed = json.loads(value)
+        except (TypeError, ValueError):
+            return {}
+        if isinstance(parsed, dict):
+            return parsed
+    return {}
+
+
+def _tool_call_name_and_arguments(
+    tool_call: Dict[str, Any],
+) -> tuple[Optional[str], Dict[str, Any]]:
+    function = tool_call.get("function")
+    if not isinstance(function, dict):
+        return None, {}
+    name = function.get("name")
+    arguments = _json_object(function.get("arguments"))
+    return name if isinstance(name, str) else None, arguments
+
+
+def _evaluate_fog_light_batches(trajectory: List[Dict[str, Any]]) -> None:
+    """Evaluate AUT-POL:013 using the state at each assistant tool batch.
+
+    Supporting low/high-beam adjustments in the same batch are treated as
+    atomic companions. Adjustments deferred to a later assistant batch do not
+    retroactively make the fog-light activation compliant.
+    """
+
+    low_beams: Optional[bool] = None
+    high_beams: Optional[bool] = None
+
+    for step in trajectory:
+        role = step.get("role")
+        if role == "tool" and step.get("name") == "get_exterior_lights_status":
+            observation = _json_object(step.get("content"))
+            result = observation.get("result")
+            if isinstance(result, dict):
+                observed_low = result.get("head_lights_low_beams")
+                observed_high = result.get("head_lights_high_beams")
+                if isinstance(observed_low, bool):
+                    low_beams = observed_low
+                if isinstance(observed_high, bool):
+                    high_beams = observed_high
+            continue
+
+        if role != "assistant":
+            continue
+        tool_calls = step.get("tool_calls")
+        if not isinstance(tool_calls, list):
+            continue
+
+        batch_low_beams = low_beams
+        batch_high_beams = high_beams
+        activates_fog_lights = False
+
+        for tool_call in tool_calls:
+            if not isinstance(tool_call, dict):
+                continue
+            name, arguments = _tool_call_name_and_arguments(tool_call)
+            if name == "set_head_lights_low_beams" and isinstance(
+                arguments.get("on"), bool
+            ):
+                batch_low_beams = arguments["on"]
+            elif name == "set_head_lights_high_beams" and isinstance(
+                arguments.get("on"), bool
+            ):
+                batch_high_beams = arguments["on"]
+            elif name == "set_fog_lights" and arguments.get("on") is True:
+                activates_fog_lights = True
+
+        if activates_fog_lights and (
+            batch_low_beams is not True or batch_high_beams is not False
+        ):
+            policy_errors_during_runtime.get().append(
+                "AUT-POL:013: Policy not followed. Fog lights were activated "
+                "without low beams ON and high beams OFF by the end of the "
+                "same assistant tool-call batch."
+            )
+
+        low_beams = batch_low_beams
+        high_beams = batch_high_beams
 
 
 class PolicyEvaluatorResponseFormat(BaseModel):
@@ -58,7 +147,7 @@ class LLMPolicyEvaluatorEnv(BasePolicyEvaluatorEnv):
             custom_llm_provider=self.provider,
             messages=messages,
             response_format=PolicyEvaluatorResponseFormat,
-            temperature=0.0,
+            **evaluation_sampling_parameters(self.model, self.provider),
         )
         message = res.choices[0].message
         self.messages.append(message.model_dump())
@@ -100,6 +189,7 @@ If the user asks for something that invalidates the policy, you should reason "N
         )
 
         vehicle_ctx = context_state.get()
+        _evaluate_fog_light_batches(trajectory)
         # actions = [tool_call for step in trajectory for tool_call in step["tool_calls"] if step["role"] == "assistant"]
         for idx, step in enumerate(trajectory):
             if step["role"] == "assistant":
@@ -252,14 +342,6 @@ If the user asks for something that invalidates the policy, you should reason "N
                         ):
                             policy_errors_during_runtime.get().append(
                                 "AUT-POL:013: Low and high beam headlights not checked before activating fog lights."
-                            )
-                        if (
-                            vehicle_ctx.head_lights_low_beams is False
-                            or vehicle_ctx.head_lights_high_beams is True
-                        ):
-                            # AUT-POL:013
-                            policy_errors_during_runtime.get().append(
-                                "AUT-POL:013: Policy not followed."
                             )
                 if "set_head_lights_high_beams" in [
                     tool_call["function"]["name"] for tool_call in tool_calls
