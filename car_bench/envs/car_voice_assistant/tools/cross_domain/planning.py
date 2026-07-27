@@ -1,8 +1,19 @@
 import json
-from typing import Any, Dict, List, Literal, Optional
+from contextvars import ContextVar
+from typing import Any, Dict, List, Literal, Optional, TypedDict
 
 from car_bench.envs.policy_evaluator import policy_errors_during_runtime
 from car_bench.envs.tool import Tool
+
+
+class _PlanningState(TypedDict):
+    plans: Dict[str, Dict[str, Any]]
+    current_plan_id: Optional[str]
+
+
+_planning_state: ContextVar[Optional[_PlanningState]] = ContextVar(
+    "planning_tool_state", default=None
+)
 
 
 def pretty_print_plan(plan_details: Dict[str, Any]) -> str:
@@ -41,9 +52,19 @@ def pretty_print_plan(plan_details: Dict[str, Any]) -> str:
 class PlanningTool(Tool):
     "Planning Tool: allows creating and managing plans for solving complex tasks. Provides functionality for creating plans, updating plan steps, and tracking progress."
 
-    # Store plans in a class variable to maintain state
-    _plans = {}
-    _current_plan_id = None
+    @staticmethod
+    def reset() -> None:
+        """Install an empty plan store for the current task context."""
+        _planning_state.set({"plans": {}, "current_plan_id": None})
+
+    @staticmethod
+    def _state() -> _PlanningState:
+        """Return the task-local state, creating it for direct tool use if needed."""
+        state = _planning_state.get()
+        if state is None:
+            state = {"plans": {}, "current_plan_id": None}
+            _planning_state.set(state)
+        return state
 
     @staticmethod
     def invoke(
@@ -147,10 +168,13 @@ class PlanningTool(Tool):
         steps: Optional[List[Dict[str, Any]]],
     ) -> Dict:
         """Create a new plan with the given ID, title, and steps."""
+        state = PlanningTool._state()
+        plans = state["plans"]
+
         if not plan_id:
             raise ValueError("Parameter `plan_id` is required for command: create")
 
-        if plan_id in PlanningTool._plans:
+        if plan_id in plans:
             raise ValueError(
                 f"A plan with ID '{plan_id}' already exists. Use 'update' to modify existing plans."
             )
@@ -195,8 +219,8 @@ class PlanningTool(Tool):
         for i in range(len(steps)):
             PlanningTool._update_step_status(plan, i)
 
-        PlanningTool._plans[plan_id] = plan
-        PlanningTool._current_plan_id = plan_id  # Set as active plan
+        plans[plan_id] = plan
+        state["current_plan_id"] = plan_id
 
         return {
             "plan_created": True,
@@ -211,13 +235,15 @@ class PlanningTool(Tool):
         steps: Optional[List[Dict[str, Any]]],
     ) -> Dict:
         """Update an existing plan with new title or steps."""
+        plans = PlanningTool._state()["plans"]
+
         if not plan_id:
             raise ValueError("Parameter `plan_id` is required for command: update")
 
-        if plan_id not in PlanningTool._plans:
+        if plan_id not in plans:
             raise ValueError(f"No plan found with ID: {plan_id}")
 
-        plan = PlanningTool._plans[plan_id]
+        plan = plans[plan_id]
 
         if title:
             plan["title"] = title
@@ -264,10 +290,13 @@ class PlanningTool(Tool):
     @staticmethod
     def _list_plans() -> Dict:
         """List all available plans."""
+        state = PlanningTool._state()
+        plans = state["plans"]
+        current_plan_id = state["current_plan_id"]
         plans_list = []
 
-        for plan_id, plan in PlanningTool._plans.items():
-            current_marker = True if plan_id == PlanningTool._current_plan_id else False
+        for plan_id, plan in plans.items():
+            current_marker = plan_id == current_plan_id
             completed = sum(
                 1 for status in plan["step_statuses"] if status == "completed"
             )
@@ -288,45 +317,52 @@ class PlanningTool(Tool):
 
         return {
             "plans": plans_list,
-            "active_plan_id": PlanningTool._current_plan_id,
+            "active_plan_id": current_plan_id,
             "total_plans": len(plans_list),
         }
 
     @staticmethod
     def _get_plan(plan_id: Optional[str]) -> Dict:
         """Get details of a specific plan."""
+        state = PlanningTool._state()
+        plans = state["plans"]
+        current_plan_id = state["current_plan_id"]
+
         if not plan_id:
             # If no plan_id is provided, use the current active plan
-            if not PlanningTool._current_plan_id:
+            if not current_plan_id:
                 raise ValueError(
                     "No active plan. Please specify a plan_id or set an active plan."
                 )
-            plan_id = PlanningTool._current_plan_id
+            plan_id = current_plan_id
 
-        if plan_id not in PlanningTool._plans:
+        if plan_id not in plans:
             raise ValueError(f"No plan found with ID: {plan_id}")
 
-        plan = PlanningTool._plans[plan_id]
+        plan = plans[plan_id]
         return {
             "plan_id": plan_id,
             "plan_details": PlanningTool._format_plan(plan),
-            "is_active": plan_id == PlanningTool._current_plan_id,
+            "is_active": plan_id == current_plan_id,
         }
 
     @staticmethod
     def _set_active_plan(plan_id: Optional[str]) -> Dict:
         """Set a plan as the active plan."""
+        state = PlanningTool._state()
+        plans = state["plans"]
+
         if not plan_id:
             raise ValueError("Parameter `plan_id` is required for command: set_active")
 
-        if plan_id not in PlanningTool._plans:
+        if plan_id not in plans:
             raise ValueError(f"No plan found with ID: {plan_id}")
 
-        PlanningTool._current_plan_id = plan_id
+        state["current_plan_id"] = plan_id
         return {
             "active_plan_set": True,
             "plan_id": plan_id,
-            "plan_details": PlanningTool._format_plan(PlanningTool._plans[plan_id]),
+            "plan_details": PlanningTool._format_plan(plans[plan_id]),
         }
 
     @staticmethod
@@ -334,15 +370,19 @@ class PlanningTool(Tool):
         plan_id: Optional[str], step_updates: Optional[List[Dict[str, Any]]]
     ) -> Dict:
         """Mark multiple steps with specific statuses and optional notes."""
+        state = PlanningTool._state()
+        plans = state["plans"]
+        current_plan_id = state["current_plan_id"]
+
         if not plan_id:
             # If no plan_id is provided, use the current active plan
-            if not PlanningTool._current_plan_id:
+            if not current_plan_id:
                 raise ValueError(
                     "No active plan. Please specify a plan_id or set an active plan."
                 )
-            plan_id = PlanningTool._current_plan_id
+            plan_id = current_plan_id
 
-        if plan_id not in PlanningTool._plans:
+        if plan_id not in plans:
             raise ValueError(f"No plan found with ID: {plan_id}")
 
         if not step_updates or not isinstance(step_updates, list):
@@ -350,7 +390,7 @@ class PlanningTool(Tool):
                 "Parameter `step_updates` must be a non-empty list for command: mark_steps"
             )
 
-        plan = PlanningTool._plans[plan_id]
+        plan = plans[plan_id]
         updates_applied = []
         completed_steps = set()
 
@@ -413,18 +453,21 @@ class PlanningTool(Tool):
     @staticmethod
     def _delete_plan(plan_id: Optional[str]) -> Dict:
         """Delete a plan."""
+        state = PlanningTool._state()
+        plans = state["plans"]
+
         if not plan_id:
             raise ValueError("Parameter `plan_id` is required for command: delete")
 
-        if plan_id not in PlanningTool._plans:
+        if plan_id not in plans:
             raise ValueError(f"No plan found with ID: {plan_id}")
 
-        del PlanningTool._plans[plan_id]
+        del plans[plan_id]
 
         # If the deleted plan was the active plan, clear the active plan
-        was_active = PlanningTool._current_plan_id == plan_id
+        was_active = state["current_plan_id"] == plan_id
         if was_active:
-            PlanningTool._current_plan_id = None
+            state["current_plan_id"] = None
 
         return {"plan_deleted": True, "plan_id": plan_id, "was_active_plan": was_active}
 
@@ -484,7 +527,9 @@ class PlanningTool(Tool):
                 "not_started": not_started,
             },
             "steps": formatted_steps,
-            "is_active": plan["plan_id"] == PlanningTool._current_plan_id,
+            "is_active": (
+                plan["plan_id"] == PlanningTool._state()["current_plan_id"]
+            ),
         }
 
     @staticmethod

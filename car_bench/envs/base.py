@@ -59,6 +59,16 @@ def consistent_hash(
     return sha256(str(value).encode("utf-8")).hexdigest()
 
 
+def _record_tool_runtime_error(action_name: str, exc: Exception) -> None:
+    try:
+        errors = tool_execution_errors_during_runtime.get()
+    except LookupError:
+        return
+
+    if isinstance(errors, list):
+        errors.append(f"{action_name}: {type(exc).__name__}: {exc}")
+
+
 class Env(object):
     def __init__(
         self,
@@ -113,6 +123,12 @@ class Env(object):
     def reset(self, task_index: Optional[int] = None) -> EnvResetResponse:
         if task_index is None:
             task_index = random.randint(0, len(self.tasks))
+
+        # Tools are shared as classes across environment instances. Give each tool a
+        # chance to install fresh task-scoped state before the new run starts.
+        for tool in set(self.tools_map.values()):
+            tool.reset()
+
         self.task_index = task_index
         self.data = self.data_load_func()
         self.task = self.tasks[task_index]
@@ -160,6 +176,7 @@ class Env(object):
                     data=self.data, **action.kwargs
                 )
             except Exception as e:
+                _record_tool_runtime_error(action.name, e)
                 observation = f"Error: {e}"
             info.source = action.name
         else:
@@ -176,6 +193,7 @@ class Env(object):
                 source = action.name
                 is_terminate = action.name in self.terminate_tools
             except Exception as e:
+                _record_tool_runtime_error(action.name, e)
                 observation = f"Error: {e}"
                 source = action.name
                 is_terminate = False
