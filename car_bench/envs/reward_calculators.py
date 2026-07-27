@@ -264,6 +264,22 @@ def enhance_policy_line_with_context(
         ):
             return None
 
+    elif "If you get multiple alternative routes from the tool" in line:
+        if "get_routes_from_start_to_destination" not in performed_action_names:
+            return None
+        return (
+            line
+            + " Apply this policy only to route results that contain multiple "
+            "alternatives. Prior explicit user authorization to start "
+            "navigation counts as authorization, so do not require redundant "
+            "confirmation. Even with prior authorization, the assistant must "
+            "still tell the user about the fastest and shortest route (or that "
+            "one route is both) and state the number of further alternatives "
+            "in a user-facing response. Evaluate every route-tool result "
+            "independently; a complete presentation for a later route query "
+            "does not repair an omitted presentation for an earlier query."
+        )
+
     elif (
         "route is presented in detail (fastest route, shortest route, or upon user detail request)"
         in line

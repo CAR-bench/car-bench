@@ -13,6 +13,7 @@ from car_bench.envs.user.user_end_conversation import (
     check_end_conversation,
     end_conversation_failure,
 )
+from car_bench.model_utils.sampling import evaluation_sampling_parameters
 from car_bench.types import TaskType
 
 
@@ -78,7 +79,7 @@ class LLMUserSimulationEnv(BaseUserSimulationEnv):
                     "model": self.model,
                     "custom_llm_provider": self.provider,
                     "response_format": self.response_format,
-                    "temperature": 0.0,
+                    **evaluation_sampling_parameters(self.model, self.provider),
                 }
                 if self.user_thinking:
                     completion_kwargs["reasoning_effort"] = "low"
