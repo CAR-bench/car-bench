@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Report Reader - CAR-bench</title>
+    <link rel="stylesheet" href="assets/vendor/pdfjs/web/pdf_viewer.css?v=5.6.205">
+    <link rel="stylesheet" href="assets/css/report-viewer.css?v=20260805-reader2">
+</head>
+<body>
+<main class="viewer-shell">
+    <div class="viewer-toolbar" role="toolbar" aria-label="PDF controls">
+        <strong class="viewer-title" id="viewer-title">Technical report</strong>
+        <div class="viewer-group"><button class="viewer-button" id="previous-page" type="button" title="Previous page" aria-label="Previous page">‹</button><label class="page-field"><input id="page-number" type="number" min="1" value="1" aria-label="Current page"> / <span id="page-count">—</span></label><button class="viewer-button" id="next-page" type="button" title="Next page" aria-label="Next page">›</button></div>
+        <div class="viewer-group"><button class="viewer-button" id="zoom-out" type="button" title="Zoom out" aria-label="Zoom out">−</button><button class="viewer-button" id="fit-width" type="button">Fit width</button><button class="viewer-button" id="zoom-in" type="button" title="Zoom in" aria-label="Zoom in">+</button></div>
+        <div class="viewer-group"><a class="viewer-link" id="open-pdf" href="#" target="_blank" rel="noreferrer" title="Open PDF in browser"><span>Open</span> ↗</a><a class="viewer-link" id="download-pdf" href="#" title="Download PDF"><span>Download</span> ↓</a></div>
+    </div>
+    <div class="viewer-status" id="viewer-status">Loading technical report…</div>
+    <div id="viewerContainer" tabindex="0"><div id="viewer" class="pdfViewer"></div></div>
+</main>
+<script type="module" src="assets/js/report-viewer.mjs?v=20260805-reader2"></script>
+</body>
+</html>

@@ -14,7 +14,7 @@
 
 <!-- Announcement bar -->
 <div class="announce-bar">
-    <span>CAR-bench technical report submission is open - <a href="https://docs.google.com/forms/d/e/1FAIpQLSctxuRUl8mCYOg3i8e7TTZyzYSJX6GJj-wAg3J3UbHbpdmIaw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer">submit by July 26, 2026 (AoE)</a>.</span>
+    <span>CAR-bench Challenge 2026 results are available - <a href="leaderboard.html">view the final results and award winners</a>.</span>
 </div>
 
 <!-- Navigation -->
@@ -27,9 +27,9 @@
         <button class="mobile-toggle" onclick="toggleNav()" aria-label="Toggle menu">&#9776;</button>
         <ul class="nav-links">
             <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="leaderboard.html">Results</a></li>
             <li><a href="tracks.html">Tracks</a></li>
             <li><a href="data.html">Data &amp; Starter Kit</a></li>
-            <li><a href="leaderboard.html">Leaderboard</a></li>
             <li><a href="rules.html">Rules</a></li>
             <li><a href="submission.html">Submission</a></li>
             <li><a href="benchmark.html">Benchmark</a></li>
@@ -39,7 +39,7 @@
             <a href="https://discord.gg/SJnVC2wuW" target="_blank" class="discord-icon" title="Join our Discord" aria-label="Discord">
                 <svg width="20" height="15" viewBox="0 0 71 55" fill="none"><path d="M60.1 4.9A58.5 58.5 0 0045.4.2a.2.2 0 00-.2.1 40.8 40.8 0 00-1.8 3.7 54 54 0 00-16.2 0A26.5 26.5 0 0025.4.3a.2.2 0 00-.2-.1A58.4 58.4 0 0010.5 4.9a.2.2 0 00-.1.1C1.5 18.7-.9 32.2.3 45.5v.1a58.7 58.7 0 0017.7 9a.2.2 0 00.3-.1 42 42 0 003.6-5.9.2.2 0 00-.1-.3 38.6 38.6 0 01-5.5-2.7.2.2 0 01 0-.4c.4-.3.7-.6 1.1-.8a.2.2 0 01.2 0c11.6 5.3 24.1 5.3 35.5 0a.2.2 0 01.2 0l1.1.9a.2.2 0 010 .3c-1.8 1-3.6 1.9-5.5 2.7a.2.2 0 00-.1.3 47.2 47.2 0 003.6 5.9.2.2 0 00.3.1A58.5 58.5 0 0070.4 45.6v-.1c1.4-15-2.3-28-9.8-39.6a.2.2 0 00-.1-.1zM23.7 37.3c-3.4 0-6.2-3.1-6.2-7s2.7-7 6.2-7 6.3 3.2 6.2 7-2.8 7-6.2 7zm23 0c-3.4 0-6.2-3.1-6.2-7s2.7-7 6.2-7 6.3 3.2 6.2 7-2.8 7-6.2 7z" fill="currentColor"/></svg>
             </a>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSctxuRUl8mCYOg3i8e7TTZyzYSJX6GJj-wAg3J3UbHbpdmIaw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" class="btn btn-cta btn-sm">Submit Report</a>
+            <a href="leaderboard.html" class="btn btn-cta btn-sm">View Results</a>
         </div>
     </div>
 </nav>
@@ -56,10 +56,10 @@
 
         <h1>CAR-bench Challenge:<br>Building <em>Reliable LLM Agents</em><br>Under Real-World Uncertainty</h1>
 
-        <p class="subtitle">Frontier LLMs solve only <strong>58%</strong> of tasks consistently. Build a more reliable agent and compete for <span class="hero-inline-prize">$10k+ in prizes</span>, recognition, and a spot on the CAR-bench leaderboard.<br>254 public tasks &middot; 58 tools &middot; 19 policies &middot; 3 evaluation dimensions</p>
+        <p class="subtitle">The challenge brought together <strong>34 ranked submissions</strong> across two tracks. Explore the final hidden-set scores, award winners, agent summaries, and technical reports.<br>254 public tasks &middot; 58 tools &middot; 19 policies &middot; 3 evaluation dimensions</p>
 
         <div class="hero-buttons">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSctxuRUl8mCYOg3i8e7TTZyzYSJX6GJj-wAg3J3UbHbpdmIaw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" class="btn btn-cta btn-lg">Submit Technical Report</a>
+            <a href="leaderboard.html" class="btn btn-cta btn-lg">View Final Results</a>
             <a href="tracks.html" class="btn btn-primary btn-lg">View Tracks</a>
             <a href="https://aclanthology.org/2026.acl-long.1886/" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-lg">Read the Paper</a>
             <a href="https://discord.gg/SJnVC2wuW" target="_blank" class="btn btn-outline btn-lg" style="border-color:var(--color-discord);color:var(--color-discord);">
@@ -89,17 +89,11 @@
     </div>
 </section>
 
-<!-- Competition updates -->
+<!-- Results update -->
 <section style="padding:1.5rem 0 0;">
     <div class="container">
-        <div class="callout warning" style="max-width:var(--max-width-narrow);margin:1rem auto 0;">
-            <strong>Winner announcement update:</strong> The winner announcement has been postponed to <strong>August 7, 2026</strong> to allow additional time for a thorough evaluation. Thank you for your patience and understanding.
-        </div>
-        <div class="callout warning" style="max-width:var(--max-width-narrow);margin:1rem auto 0;">
-            <strong><a href="submission.html">Technical report submission is open.</a></strong> Submit one separate report per track by <strong>July 26, 2026 (AoE)</strong>. The final-agent submission stage has concluded; the report form is now the only active submission path.
-        </div>
-        <div class="callout warning" style="max-width:var(--max-width-narrow);margin:0 auto;">
-            <strong>Track update:</strong> Track 1 registration remains open; Track 2 registration is now closed. Track 2 uses Cerebras-hosted <code>gpt-oss</code> via API, not Codex as the submitted-agent runtime, and Cerebras will provide increased rate limits compared with a free personal account. Access details will follow soon.
+        <div class="callout" style="max-width:var(--max-width-narrow);margin:1rem auto 0;">
+            <strong>Final results:</strong> Explore the hidden-set scores, award winners, submission summaries, and technical reports. <a href="leaderboard.html">View the results &rarr;</a>
         </div>
     </div>
 </section>
@@ -149,14 +143,14 @@
     </div>
 </section>
 
-<!-- Submission -->
+<!-- Results -->
 <section style="padding:0 0 2.5rem;">
     <div class="container">
         <div class="callout" style="max-width:var(--max-width-narrow);margin:0 auto;">
-            <strong>Technical report submission:</strong> The report form is open until <strong>July 26, 2026 (AoE)</strong>. See the submission page for the complete, current requirements.
+            <strong>Challenge results:</strong> Compare final scores by track, expand the detailed metrics, and read each team&rsquo;s submitted technical report.
             <div style="margin-top:0.8rem;">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSctxuRUl8mCYOg3i8e7TTZyzYSJX6GJj-wAg3J3UbHbpdmIaw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" class="btn btn-cta btn-sm">Open Report Form</a>
-                <a href="submission.html" class="btn btn-primary btn-sm">View Report Requirements</a>
+                <a href="leaderboard.html" class="btn btn-cta btn-sm">View Final Results</a>
+                <a href="leaderboard.html#explore" class="btn btn-primary btn-sm">Explore Submissions</a>
             </div>
         </div>
     </div>
@@ -202,7 +196,7 @@
     <div class="container">
         <p class="eyebrow">Competition</p>
         <h2 class="section-title">Two Tracks</h2>
-        <p class="section-subtitle">Track 1 remains open for new registrations. Track 2 is closed to new teams.</p>
+        <p class="section-subtitle">The completed challenge produced 21 ranked Track 1 submissions and 13 ranked Track 2 submissions.</p>
 
         <div class="tracks-grid">
             <div class="track-card open">
@@ -215,7 +209,7 @@
                 <div class="track-icon">&#9889;</div>
                 <h3>Track 2: Cerebras Fast-Reasoning</h3>
                 <p class="track-pitch">Use direct Cerebras <code>gpt-oss</code> inference to build fast-reasoning agents under inference-compute constraints: bounded sequential LLM-call depth and token usage up to 500k tokens on average per task.</p>
-                <p class="track-pitch" style="margin-top:0.6rem;font-size:0.85rem;"><strong>Registration closed.</strong> Cerebras will provide increased rate limits compared with a free personal account; access details will follow soon.</p>
+                <p class="track-pitch" style="margin-top:0.6rem;font-size:0.85rem;"><strong>Challenge complete.</strong> See the final results for the compute-aware agents developed in this track.</p>
                 <a href="tracks.html#cerebras" class="track-link">Learn more &rarr;</a>
             </div>
         </div>
@@ -331,7 +325,7 @@
             </table>
         </div>
         <p style="text-align:center;margin-top:1.2rem;">
-            <a href="leaderboard.html" class="btn btn-outline btn-sm">Full Leaderboard &rarr;</a>
+            <a href="leaderboard.html" class="btn btn-outline btn-sm">Full Results &rarr;</a>
         </p>
     </div>
 </section>
@@ -450,7 +444,7 @@
                 <ul>
                     <li><a href="tracks.html">Tracks</a></li>
                     <li><a href="data.html">Data &amp; Starter Kit</a></li>
-                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="leaderboard.html">Results</a></li>
                     <li><a href="rules.html">Rules</a></li>
         
                 </ul>

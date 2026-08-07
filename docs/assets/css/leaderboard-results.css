@@ -1,0 +1,210 @@
+/* Final results additions. Kept deliberately within the original CAR-bench design system. */
+
+.award-pill[hidden] { display: none !important; }
+
+.results-container { max-width: 1320px; }
+.results-shell-section { padding-top: 2.4rem; }
+
+.result-view-tabs {
+    display: flex;
+    justify-content: center;
+    gap: .45rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.result-view-tab,
+.result-track-tab {
+    border: 1px solid var(--color-border-strong);
+    border-radius: 20px;
+    background: white;
+    color: var(--color-text-light);
+    padding: .55rem 1.15rem;
+    font: inherit;
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.result-view-tab.active,
+.result-track-tab.active {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: white;
+}
+
+.result-view-panel { display: none; }
+.result-view-panel.active { display: block; }
+.result-track-tabs { margin-bottom: 1.25rem; }
+
+.results-toolbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.results-toolbar h2 { color: var(--color-primary); font-size: 1.35rem; }
+.results-toolbar p { color: var(--color-text-light); font-size: .88rem; }
+.final-table-wrapper { border-radius: 10px; }
+.final-results-table { min-width: 0; font-size: .84rem; }
+.final-results-table th,
+.final-results-table td { padding: .56rem .62rem; }
+.final-results-table .detail-column { display: none; }
+.leaderboard-details-visible .final-results-table .detail-column { display: table-cell; }
+.leaderboard-details-visible .final-results-table thead th.detail-column { background: #244f7f; }
+.final-results-table .leaderboard-pass3-cell { padding-right: 6.37rem; font-size: inherit; font-weight: 400; }
+.final-results-table .llm-column { width: 1%; max-width: none; padding-left: .65rem; padding-right: .65rem; white-space: nowrap; }
+.score-column-heading { display: grid; grid-template-columns: minmax(54px, 1fr) auto; align-items: center; gap: .45rem; }
+.score-column-heading > .sort-button { justify-self: end; }
+.sort-button { padding: 0; border: 0; background: transparent; color: inherit; font: inherit; font-weight: 700; white-space: nowrap; cursor: pointer; }
+.sort-button:hover, .sort-button:focus-visible { color: var(--color-cta); }
+.sort-indicator { display: inline-block; min-width: .8rem; color: #b9cbe3; text-align: center; }
+.score-expand-button { width: 5.3rem; justify-self: end; display: inline-flex; align-items: center; justify-content: center; gap: .2rem; padding: .16rem .38rem; border: 1px solid rgba(214,229,245,.55); border-radius: 999px; background: rgba(255,255,255,.08); color: #d6e5f5; font: inherit; font-size: .58rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
+.score-expand-button span { font-size: .9rem; line-height: .65; }
+.score-expand-button:hover, .score-expand-button:focus-visible { border-color: white; background: rgba(255,255,255,.18); color: white; }
+
+.final-results-table .award-row { background: #fffaf0; }
+.final-results-table .award-row td:first-child { border-left: 4px solid var(--color-cta); }
+.final-results-table .baseline-reference-row { background: #f3f6f8; color: #66717b; }
+.final-results-table .baseline-reference-row td:first-child { border-left: 4px solid #94a3b8; }
+.final-results-table .baseline-reference-row .team-name-line strong { color: #4a5568; }
+.final-results-table .baseline-reference-row .llm-pill { background: #e2e8ee; }
+.team-name-line { display: flex; align-items: center; gap: .35rem; }
+.table-award-star { color: #c48800; }
+.final-results-table small { display: block; margin-top: .12rem; color: var(--color-text-light); font-size: .7rem; }
+.llm-pill { display: inline-block; max-width: none; overflow: visible; padding: .16rem .42rem; border-radius: 999px; background: var(--color-code-bg); font-size: .74rem; line-height: 1.3; text-overflow: clip; white-space: nowrap; }
+.report-link-cell a { font-weight: 700; text-decoration: none; white-space: nowrap; }
+.baseline-report-cell { color: #94a3b8; }
+.results-method-note { margin-top: .8rem; color: var(--color-text-light); font-size: .82rem; }
+
+.awards-block { padding-top: 3.5rem; }
+.award-results-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 1.25rem; margin-top: 1.5rem; }
+.award-track-column { min-width: 0; }
+.award-track-heading { display: flex; align-items: baseline; gap: .55rem; margin-bottom: .8rem; padding: 0 .1rem .6rem; border-bottom: 2px solid var(--color-primary-light); color: var(--color-primary); font-size: 1.05rem; }
+.award-track-column.track-two .award-track-heading { border-bottom-color: var(--color-accent); }
+.award-track-heading small { color: var(--color-text-light); font-size: .72rem; font-weight: 600; }
+.award-track-list { display: grid; gap: 1rem; }
+.award-result-card {
+    position: relative;
+    overflow: hidden;
+    padding: 1.35rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: white;
+}
+.award-result-card::before { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--color-primary-light); }
+.award-result-card.track-two::before { background: linear-gradient(90deg, var(--color-accent), var(--color-cta)); }
+.award-result-card .award-kicker { display: flex; gap: .5rem; color: #975a16; font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+.award-result-card .award-kicker span:last-child { margin-left: auto; color: var(--color-text-light); }
+.award-result-card h3 { margin-top: .55rem; color: var(--color-primary); font-size: 1.2rem; }
+.award-result-card p { margin-top: .45rem; color: var(--color-text-light); font-size: .88rem; line-height: 1.55; }
+.award-result-card .award-rationale { color: var(--color-text); }
+.award-card-footer { display: flex; justify-content: space-between; gap: 1rem; margin-top: .9rem; padding-top: .7rem; border-top: 1px solid var(--color-border); font-size: .82rem; }
+.award-card-footer a { font-weight: 700; text-decoration: none; }
+
+.submission-explorer {
+    display: grid;
+    grid-template-columns: 245px minmax(0, 1fr) 310px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-bg-alt);
+    overflow: hidden;
+}
+
+.submission-sidebar { min-height: 0; padding: 1rem; display: flex; flex-direction: column; contain: size; overflow: hidden; border-right: 1px solid var(--color-border); background: white; }
+.filter-label { display: block; margin: .65rem 0 .25rem; color: var(--color-text-light); font-size: .7rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.filter-label:first-child { margin-top: 0; }
+.filter-input { width: 100%; min-height: 39px; padding: .5rem .6rem; border: 1px solid var(--color-border-strong); border-radius: 6px; background: white; color: var(--color-text); font: inherit; font-size: .85rem; }
+.winner-filter { display: flex; align-items: center; gap: .4rem; margin: .75rem 0; color: var(--color-text); font-size: .8rem; font-weight: 600; }
+.submission-list { flex: 1; min-height: 0; max-height: none; margin: .35rem -1rem -1rem; overflow-y: scroll; scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: #9aa8b3 #edf1f4; border-top: 1px solid var(--color-border); }
+.submission-list::-webkit-scrollbar { width: 10px; }
+.submission-list::-webkit-scrollbar-track { background: #edf1f4; }
+.submission-list::-webkit-scrollbar-thumb { min-height: 42px; border: 2px solid #edf1f4; border-radius: 999px; background: #9aa8b3; }
+.submission-team-row { width: 100%; display: grid; grid-template-columns: 30px minmax(0, 1fr) 18px; gap: .45rem; align-items: center; padding: .72rem .75rem; border: 0; border-bottom: 1px solid var(--color-border); background: white; text-align: left; cursor: pointer; }
+.submission-team-row:hover { background: var(--color-bg-alt); }
+.submission-team-row.selected { background: #ebf5ff; box-shadow: inset 3px 0 var(--color-primary-light); }
+.submission-team-row.winner { background: #fffaf0; }
+.submission-team-row.selected.winner { background: #fff4d6; }
+.submission-track-tag { color: var(--color-primary-light); font-size: .68rem; font-weight: 800; }
+.submission-team-copy { min-width: 0; }
+.submission-team-copy strong, .submission-team-copy small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.submission-team-copy strong { color: var(--color-text); font-size: .8rem; }
+.submission-team-copy small { color: var(--color-text-light); font-size: .66rem; }
+.submission-award-star { color: #c48800; }
+.submission-empty { padding: 1rem 0; color: var(--color-text-light); font-size: .8rem; }
+
+.submission-detail { min-width: 0; padding: 1.25rem; background: white; }
+.submission-title-row { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+.submission-title-row h2 { color: var(--color-primary); font-size: 1.65rem; }
+.submission-title-row p { color: var(--color-text-light); font-size: .85rem; }
+.submission-eyebrow { color: var(--color-primary-light) !important; font-size: .68rem !important; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.award-pill { flex: 0 0 auto; padding: .3rem .55rem; border: 1px solid #e4c56d; border-radius: 999px; background: #fff8d7; color: #805b08; font-size: .72rem; font-weight: 800; }
+
+.summary-card,
+.report-card { margin-top: 1rem; border: 1px solid var(--color-border); border-radius: 9px; background: var(--color-bg-alt); }
+.summary-card { padding: 1.1rem; border-left: 4px solid var(--color-primary-light); }
+.summary-label { color: var(--color-primary-light); font-size: .68rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.summary-card h3 { margin-top: .35rem; color: var(--color-primary); font-size: 1.05rem; line-height: 1.45; }
+.summary-card p { margin-top: .65rem; color: var(--color-text-light); font-size: .84rem; line-height: 1.65; }
+.summary-card small { display: block; margin-top: .55rem; color: #718096; }
+.report-card h3 { color: var(--color-primary); font-size: 1rem; }
+.report-card { overflow: hidden; }
+.report-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem .9rem; background: var(--color-primary); color: white; }
+.report-card-heading h3 { color: white; }
+.report-card-heading a { color: white; font-size: .78rem; font-weight: 700; }
+.report-frame { display: block; width: 100%; height: 720px; border: 0; background: #3b424a; }
+
+.score-summary { padding: 1rem; border-left: 1px solid var(--color-border); background: var(--color-bg-alt); }
+.primary-score-box { padding: 1rem; border: 1px solid #e4c56d; border-radius: 9px; background: #fff8d7; }
+.primary-score-box > span { display: flex; justify-content: space-between; color: #805b08; font-size: .72rem; font-weight: 800; text-transform: uppercase; }
+.primary-score-box span small { padding: .1rem .35rem; border-radius: 999px; background: var(--color-primary); color: white; font-size: .55rem; }
+.primary-score-box strong { display: block; margin: .35rem 0; color: var(--color-primary); font-size: 2rem; line-height: 1; }
+.primary-score-box p, .primary-score-box > small { color: #6f561c; font-size: .68rem; line-height: 1.45; }
+.primary-score-box > small { display: block; margin-top: .55rem; padding-top: .55rem; border-top: 1px solid rgba(128,91,8,.18); }
+.score-list { display: grid; gap: .48rem; margin-top: .75rem; }
+.score-list-item { min-width: 0; padding: .62rem .7rem; border: 1px solid var(--color-border); border-radius: 8px; background: white; }
+.score-list-item.ranked { border-color: hsl(var(--metric-hue) 42% 70%); background: hsl(var(--metric-hue) 58% 96%); }
+.score-list-item.unranked { border-color: #d5d9d7; background: #f1f3f2; color: #747c78; }
+.score-item-label, .score-item-value { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem; }
+.score-item-label span { color: var(--color-text-light); font-size: .64rem; font-weight: 800; letter-spacing: .025em; text-transform: uppercase; }
+.score-item-label em { padding: .1rem .35rem; border-radius: 999px; background: #d7a625; color: #18201d; font-size: .5rem; font-style: normal; font-weight: 800; text-transform: uppercase; }
+.score-item-value { margin-top: .16rem; }
+.score-item-value strong { color: var(--color-primary); font-size: 1.05rem; line-height: 1; white-space: nowrap; }
+.score-item-value .score-rank { color: #7b8580; font-size: .62rem; font-weight: 700; white-space: nowrap; }
+.score-item-note, .score-item-range { display: block; margin-top: .22rem; color: var(--color-text-light); font-size: .56rem; line-height: 1.38; }
+.score-item-range { color: #59645f; font-weight: 700; }
+.score-list-item.unranked .score-item-range { color: #7b8580; }
+.score-guide { margin-top: .85rem; padding: .8rem; border: 1px solid var(--color-border); border-radius: 8px; background: white; }
+.score-guide h3 { color: var(--color-primary); font-size: .78rem; }
+.score-guide p { margin-top: .5rem; color: var(--color-text-light); font-size: .61rem; line-height: 1.5; }
+.score-guide .rank-guide { padding-top: .5rem; border-top: 1px solid var(--color-border); }
+.telemetry-note { margin-top: .75rem; padding: .72rem; border: 1px solid #d8dee3; border-radius: 7px; background: #f1f3f5; color: #66717b; font-size: .6rem; line-height: 1.5; }
+
+@media (max-width: 1120px) {
+    .submission-explorer { grid-template-columns: 230px minmax(0, 1fr); }
+    .score-summary { grid-column: 2; border-top: 1px solid var(--color-border); border-left: 0; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: .75rem; }
+    .score-summary .score-list { margin-top: 0; }
+    .score-guide { grid-column: 1 / -1; margin-top: 0; }
+}
+
+@media (max-width: 760px) {
+    .results-shell-section { padding-top: 1.5rem; }
+    .results-toolbar { align-items: flex-start; flex-direction: column; }
+    .award-results-grid { grid-template-columns: 1fr; }
+    .submission-explorer { display: block; }
+    .submission-sidebar { contain: none; overflow: visible; border-right: 0; border-bottom: 1px solid var(--color-border); }
+    .submission-list { flex: none; max-height: 300px; }
+    .submission-detail { padding: .9rem; }
+    .score-summary { display: block; border-top: 1px solid var(--color-border); }
+    .score-summary .score-list { margin-top: .75rem; }
+    .score-guide { margin-top: .85rem; }
+    .report-frame { height: 580px; }
+}
+
+@media (max-width: 520px) {
+    .result-view-tab, .result-track-tab { flex: 1; padding-inline: .7rem; }
+    .submission-title-row, .report-card-heading { flex-direction: column; }
+    .submission-title-row h2 { font-size: 1.4rem; }
+}

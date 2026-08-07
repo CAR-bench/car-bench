@@ -1,0 +1,60 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #2c3239;
+    color: #f3f6f9;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.viewer-shell { height: 100%; display: flex; flex-direction: column; }
+.viewer-toolbar {
+    min-height: 46px;
+    padding: .35rem .55rem;
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    border-bottom: 1px solid #4a535e;
+    background: #20272e;
+    box-shadow: 0 2px 10px rgba(0,0,0,.22);
+    z-index: 3;
+}
+.viewer-title { min-width: 0; margin-right: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .72rem; font-weight: 700; }
+.viewer-group { display: flex; align-items: center; gap: .25rem; padding-left: .45rem; border-left: 1px solid #4a535e; }
+.viewer-button,
+.viewer-link {
+    min-width: 30px;
+    height: 30px;
+    padding: 0 .48rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #56616d;
+    border-radius: 5px;
+    background: #303942;
+    color: #f4f7fa;
+    font: inherit;
+    font-size: .67rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+.viewer-button:hover, .viewer-link:hover { background: #46515d; color: white; }
+.page-field { display: inline-flex; align-items: center; gap: .28rem; color: #bdc7d1; font-size: .64rem; }
+.page-field input { width: 36px; height: 28px; border: 1px solid #56616d; border-radius: 4px; background: #161c22; color: white; font: inherit; font-size: .68rem; text-align: center; }
+#viewerContainer { position: absolute; inset: 47px 0 0; overflow: auto; background: #3b424a; }
+#viewer.pdfViewer { padding: 12px 0 28px; }
+#viewer.pdfViewer .page { margin: 0 auto 12px; border: 0; box-shadow: 0 4px 18px rgba(0,0,0,.34); }
+.viewer-status { position: absolute; inset: 47px 0 0; z-index: 2; display: grid; place-items: center; padding: 2rem; background: #3b424a; color: #d8e0e8; font-size: .82rem; text-align: center; }
+.viewer-status[hidden] { display: none; }
+.viewer-status.error { color: #fff0e8; }
+.viewer-status a { color: #a9d3ff; }
+
+@media (max-width: 700px) {
+    .viewer-title { display: none; }
+    .viewer-toolbar { overflow-x: auto; }
+    .viewer-link span { display: none; }
+    .viewer-group { padding-left: .3rem; }
+}

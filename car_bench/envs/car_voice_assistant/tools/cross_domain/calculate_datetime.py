@@ -78,9 +78,8 @@ class CalculateDateTime(Tool):
                                 "additionalProperties": False,
                             },
                         },
-                        "additionalProperties": False,
                     },
+                    "additionalProperties": False,
                 },
-                "additionalProperties": False,
             },
         }

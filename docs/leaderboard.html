@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard - CAR-bench Challenge @ IJCAI-ECAI 2026</title>
+    <title>Results - CAR-bench Challenge 2026</title>
+    <meta name="description" content="Final hidden-set results, award winners, submission summaries, and technical reports for the CAR-bench Challenge 2026.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css?v=20260519-registration">
+    <link rel="stylesheet" href="assets/css/leaderboard-results.css?v=20260806-results10">
 </head>
 <body>
 
-<!-- Navigation -->
 <nav class="topbar">
     <div class="container">
         <a href="index.html" class="brand">
@@ -21,9 +22,9 @@
         <button class="mobile-toggle" onclick="toggleNav()" aria-label="Toggle menu">&#9776;</button>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
+            <li><a href="leaderboard.html">Results</a></li>
             <li><a href="tracks.html">Tracks</a></li>
             <li><a href="data.html">Data &amp; Starter Kit</a></li>
-            <li><a href="leaderboard.html">Leaderboard</a></li>
             <li><a href="rules.html">Rules</a></li>
             <li><a href="submission.html">Submission</a></li>
             <li><a href="benchmark.html">Benchmark</a></li>
@@ -31,274 +32,157 @@
         </ul>
         <div class="nav-actions">
             <a href="https://discord.gg/SJnVC2wuW" target="_blank" class="discord-icon" title="Join our Discord" aria-label="Discord">
-                <svg width="20" height="15" viewBox="0 0 71 55" fill="none"><path d="M60.1 4.9A58.5 58.5 0 0045.4.2a.2.2 0 00-.2.1 40.8 40.8 0 00-1.8 3.7 54 54 0 00-16.2 0A26.5 26.5 0 0025.4.3a.2.2 0 00-.2-.1A58.4 58.4 0 0010.5 4.9a.2.2 0 00-.1.1C1.5 18.7-.9 32.2.3 45.5v.1a58.7 58.7 0 0017.7 9a.2.2 0 00.3-.1 42 42 0 003.6-5.9.2.2 0 00-.1-.3 38.6 38.6 0 01-5.5-2.7.2.2 0 01 0-.4c.4-.3.7-.6 1.1-.8a.2.2 0 01.2 0c11.6 5.3 24.1 5.3 35.5 0a.2.2 0 01.2 0l1.1.9a.2.2 0 010 .3c-1.8 1-3.6 1.9-5.5 2.7a.2.2 0 00-.1.3 47.2 47.2 0 003.6 5.9.2.2 0 00.3.1A58.5 58.5 0 0070.4 45.6v-.1c1.4-15-2.3-28-9.8-39.6a.2.2 0 00-.1-.1zM23.7 37.3c-3.4 0-6.2-3.1-6.2-7s2.7-7 6.2-7 6.3 3.2 6.2 7-2.8 7-6.2 7zm23 0c-3.4 0-6.2-3.1-6.2-7s2.7-7 6.2-7 6.3 3.2 6.2 7-2.8 7-6.2 7z" fill="currentColor"/></svg>
+                <svg width="20" height="15" viewBox="0 0 71 55" fill="none"><path d="M60.1 4.9A58.5 58.5 0 0045.4.2a.2.2 0 00-.2.1 40.8 40.8 0 00-1.8 3.7 54 54 0 00-16.2 0A26.5 26.5 0 0025.4.3a.2.2 0 00-.2-.1A58.4 58.4 0 0010.5 4.9a.2.2 0 00-.1.1C1.5 18.7-.9 32.2.3 45.5v.1a58.7 58.7 0 0017.7 9a.2.2 0 00.3-.1 42 42 0 003.6-5.9.2.2 0 00-.1-.3 38.6 38.6 0 01-5.5-2.7.2.2 0 010-.4l1.1-.8a.2.2 0 01.2 0c11.6 5.3 24.1 5.3 35.5 0a.2.2 0 01.2 0l1.1.9a.2.2 0 010 .3c-1.8 1-3.6 1.9-5.5 2.7a.2.2 0 00-.1.3 47.2 47.2 0 003.6 5.9.2.2 0 00.3.1A58.5 58.5 0 0070.4 45.6v-.1c1.4-15-2.3-28-9.8-39.6a.2.2 0 00-.1-.1zM23.7 37.3c-3.4 0-6.2-3.1-6.2-7s2.7-7 6.2-7 6.3 3.2 6.2 7-2.8 7-6.2 7zm23 0c-3.4 0-6.2-3.1-6.2-7s2.7-7 6.2-7 6.3 3.2 6.2 7-2.8 7-6.2 7z" fill="currentColor"/></svg>
             </a>
-            <div class="register-menu">
-                <button class="btn btn-cta btn-sm register-toggle" type="button" aria-expanded="false" aria-haspopup="true" onclick="toggleRegisterMenu(event)">Register</button>
-                <div class="register-dropdown" role="menu">
-                    <a href="https://forms.gle/7Dj2uD1sw6n42d6u5" target="_blank" rel="noopener noreferrer" class="register-option preferred" role="menuitem">
-                        <span class="register-badge">Preferred</span>
-                        <strong>Google Form</strong>
-                        <span>Fastest registration path</span>
-                    </a>
-                    <a href="registration.html" class="register-option" role="menuitem">
-                        <strong>Email fallback</strong>
-                        <span>If Google Forms is inaccessible</span>
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 </nav>
 
-<!-- Page header -->
 <div class="page-header">
     <div class="container">
-        <h1>Leaderboard</h1>
-        <p>Track performance across all participants and baseline models.</p>
+        <h1>Results</h1>
+        <p>Official hidden-set scores, award winners, report summaries, and submitted technical reports.</p>
     </div>
 </div>
 
-<section>
-    <div class="container">
-
-        <!-- Tabs -->
-        <div class="leaderboard-tabs">
-            <button class="lb-tab active" data-target="panel-open">Open Track</button>
-            <button class="lb-tab" data-target="panel-cerebras">Track 2</button>
-            <button class="lb-tab" data-target="panel-test">Hidden Test Results</button>
-        </div>
-
-        <!-- Open Track Panel -->
-        <div class="lb-panel active" id="panel-open">
-            <div class="lb-note">
-                <strong>Dev Set Leaderboard</strong> - Updates continuously as teams submit. Scores below include organizer baselines (non-competing, shown in grey) as reference. Competition submissions will appear once the dev leaderboard goes live in May 2026.
+<main>
+    <section class="results-shell-section">
+        <div class="container results-container">
+            <div class="result-view-tabs" role="tablist" aria-label="Results view">
+                <button class="result-view-tab active" type="button" role="tab" aria-selected="true" data-result-view="leaderboard">Final leaderboard</button>
+                <button class="result-view-tab" type="button" role="tab" aria-selected="false" data-result-view="explore">Explore submissions</button>
             </div>
 
-            <div class="table-wrapper">
-                <table class="baseline-table">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Team / Model</th>
-                            <th>Affiliation</th>
-                            <th class="num">Avg Pass^3</th>
-                            <th class="num">Avg Pass@1</th>
-                            <th class="num">Base Pass^3</th>
-                            <th class="num">Hall. Pass^3</th>
-                            <th class="num">Disamb. Pass^3</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Baseline rows -->
-                        <tr class="baseline-row">
-                            <td>Baseline</td>
-                            <td><strong>Claude Opus 4.6</strong></td>
-                            <td>Anthropic</td>
-                            <td class="num">.58</td>
-                            <td class="num">.67</td>
-                            <td class="num">.80</td>
-                            <td class="num">.48</td>
-                            <td class="num">.46</td>
-                        </tr>
-                        <tr class="baseline-row">
-                            <td>Baseline</td>
-                            <td><strong>GPT-5</strong></td>
-                            <td>OpenAI</td>
-                            <td class="num">.54</td>
-                            <td class="num">.65</td>
-                            <td class="num">.66</td>
-                            <td class="num">.60</td>
-                            <td class="num">.36</td>
-                        </tr>
-                        <tr class="baseline-row">
-                            <td>Baseline</td>
-                            <td><strong>GPT-5.2</strong></td>
-                            <td>OpenAI</td>
-                            <td class="num">.53</td>
-                            <td class="num">.68</td>
-                            <td class="num">.61</td>
-                            <td class="num">.57</td>
-                            <td class="num">.42</td>
-                        </tr>
-                        <tr class="baseline-row">
-                            <td>Baseline</td>
-                            <td><strong>Claude Opus 4.5</strong></td>
-                            <td>Anthropic</td>
-                            <td class="num">.52</td>
-                            <td class="num">.65</td>
-                            <td class="num">.67</td>
-                            <td class="num">.52</td>
-                            <td class="num">.38</td>
-                        </tr>
-                        <tr class="baseline-row">
-                            <td>Baseline</td>
-                            <td><strong>Claude Sonnet 4</strong></td>
-                            <td>Anthropic</td>
-                            <td class="num">.47</td>
-                            <td class="num">.59</td>
-                            <td class="num">.63</td>
-                            <td class="num">.46</td>
-                            <td class="num">.32</td>
-                        </tr>
-                        <tr class="baseline-row">
-                            <td>Baseline</td>
-                            <td><strong>Gemini 2.5 Flash</strong></td>
-                            <td>Google</td>
-                            <td class="num">.41</td>
-                            <td class="num">.54</td>
-                            <td class="num">.59</td>
-                            <td class="num">.41</td>
-                            <td class="num">.22</td>
-                        </tr>
-                        <tr class="baseline-row">
-                            <td>Baseline</td>
-                            <td><strong>Gemini 2.5 Pro</strong></td>
-                            <td>Google</td>
-                            <td class="num">.38</td>
-                            <td class="num">.51</td>
-                            <td class="num">.53</td>
-                            <td class="num">.34</td>
-                            <td class="num">.28</td>
-                        </tr>
-                        <tr class="baseline-row">
-                            <td>Baseline</td>
-                            <td><strong>GPT-4.1</strong></td>
-                            <td>OpenAI</td>
-                            <td class="num">.37</td>
-                            <td class="num">.46</td>
-                            <td class="num">.57</td>
-                            <td class="num">.31</td>
-                            <td class="num">.22</td>
-                        </tr>
-                        <tr class="baseline-row">
-                            <td>Baseline</td>
-                            <td><strong>Qwen3-32B</strong></td>
-                            <td>Alibaba</td>
-                            <td class="num">.31</td>
-                            <td class="num">.47</td>
-                            <td class="num">.45</td>
-                            <td class="num">.27</td>
-                            <td class="num">.22</td>
-                        </tr>
-                        <tr class="baseline-row">
-                            <td>Baseline</td>
-                            <td><strong>xLAM-2-32B</strong></td>
-                            <td>Salesforce</td>
-                            <td class="num">.16</td>
-                            <td class="num">.25</td>
-                            <td class="num">.26</td>
-                            <td class="num">.11</td>
-                            <td class="num">.12</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="result-view-panel active" id="view-leaderboard" data-result-panel="leaderboard">
+                <div class="leaderboard-tabs result-track-tabs" role="tablist" aria-label="Leaderboard track">
+                    <button class="result-track-tab active" type="button" role="tab" aria-selected="true" data-leaderboard-track="track_1">Track 1: Open Track</button>
+                    <button class="result-track-tab" type="button" role="tab" aria-selected="false" data-leaderboard-track="track_2">Track 2: Cerebras</button>
+                </div>
+
+                <div class="results-toolbar">
+                    <div>
+                        <h2 id="leaderboard-track-title">Track 1: Open Track</h2>
+                        <p id="leaderboard-track-count"></p>
+                    </div>
+                </div>
+
+                <div class="table-wrapper final-table-wrapper">
+                    <table class="baseline-table final-results-table">
+                        <thead><tr>
+                            <th scope="col">Rank</th>
+                            <th scope="col">Team</th>
+                            <th scope="col" class="llm-column">LLM used</th>
+                            <th scope="col" class="num" data-sort-header="pass3" aria-sort="descending">
+                                <div class="score-column-heading">
+                                    <button class="sort-button" type="button" data-sort-key="pass3" data-sort-default="desc">Pass³ <span class="sort-indicator" aria-hidden="true">↓</span></button>
+                                    <button class="score-expand-button" id="detail-toggle" type="button" aria-expanded="false" aria-label="Show Pass@3, Pass@1, and successful trials">More scores <span aria-hidden="true">›</span></button>
+                                </div>
+                            </th>
+                            <th scope="col" class="num detail-column" data-sort-header="passAt3" aria-sort="none"><button class="sort-button" type="button" data-sort-key="passAt3" data-sort-default="desc">Pass@3 <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                            <th scope="col" class="num detail-column" data-sort-header="pass1" aria-sort="none"><button class="sort-button" type="button" data-sort-key="pass1" data-sort-default="desc">Pass@1 <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                            <th scope="col" class="num detail-column" data-sort-header="successfulTrials" aria-sort="none"><button class="sort-button" type="button" data-sort-key="successfulTrials" data-sort-default="desc">Successful trials <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                            <th scope="col" class="num" data-sort-header="successConsistency" aria-sort="none"><button class="sort-button" type="button" data-sort-key="successConsistency" data-sort-default="desc">Success consistency <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                            <th scope="col" class="num" data-sort-header="taskLatencyMedianMs" aria-sort="none"><button class="sort-button" type="button" data-sort-key="taskLatencyMedianMs" data-sort-default="asc">Task latency <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                            <th scope="col" class="num" data-sort-header="meanTokensPerTrial" aria-sort="none"><button class="sort-button" type="button" data-sort-key="meanTokensPerTrial" data-sort-default="asc">Mean tokens / trial <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                            <th scope="col" class="num" data-sort-header="estimatedCostPerTrialUsd" aria-sort="none"><button class="sort-button" type="button" data-sort-key="estimatedCostPerTrialUsd" data-sort-default="asc">Estimated cost / trial <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                            <th scope="col">Report</th>
+                        </tr></thead>
+                        <tbody id="leaderboard-body"></tbody>
+                    </table>
+                </div>
+                <p class="results-method-note"><strong>Pass³ is the primary score:</strong> a task counts only when all three independent trials succeed. Latency and token telemetry are self-reported and could not be independently verified; cost is estimated from reported tokens using standardized pricing and a 75% prompt-cache assumption.</p>
+
+                <div class="awards-block" id="awards">
+                    <p class="eyebrow">Award Winners</p>
+                    <h2 class="section-title">Recognized teams</h2>
+                    <p class="section-subtitle">The Rank Award recognizes the strongest Track 1 Pass³ result; the Innovation and Cerebras Awards recognize distinctive advances in reliable and compute-aware agent design.</p>
+                    <div class="award-results-grid" id="award-grid"></div>
+                </div>
             </div>
 
-            <p style="text-align:center;margin-top:1.5rem;color:var(--color-text-light);font-size:0.9rem;">
-                Competition submissions will appear above the baselines once the dev leaderboard opens.
-            </p>
-        </div>
+            <div class="result-view-panel" id="view-explore" data-result-panel="explore">
+                <div class="submission-explorer">
+                    <aside class="submission-sidebar" aria-label="Submission browser">
+                        <label class="filter-label" for="team-search">Search submissions</label>
+                        <input class="filter-input" id="team-search" type="search" placeholder="Team or LLM">
+                        <label class="filter-label" for="track-filter">Track</label>
+                        <select class="filter-input" id="track-filter">
+                            <option value="all">All tracks</option>
+                            <option value="track_1">Track 1</option>
+                            <option value="track_2">Track 2</option>
+                        </select>
+                        <label class="winner-filter"><input id="award-filter" type="checkbox"> Award winners only</label>
+                        <div class="submission-list" id="explorer-team-list"></div>
+                        <p class="submission-empty" id="team-list-empty" hidden>No submissions match these filters.</p>
+                    </aside>
 
-        <!-- Cerebras Track Panel -->
-        <div class="lb-panel" id="panel-cerebras">
-            <div class="lb-note">
-                <strong>Track 2: Cerebras Fast-Reasoning</strong> - This leaderboard will be populated for confirmed Track 2 teams. The Cerebras Award is judged on compute-time-aware faster-inference methods, latency, and performance.
-            </div>
-            <div style="text-align:center;padding:3rem 0;color:var(--color-text-light);">
-                <p style="font-size:1.2rem;font-weight:600;margin-bottom:0.5rem;">Coming Soon</p>
-                <p>Track 2 development uses direct Cerebras-hosted <code>gpt-oss</code> inference. Cerebras will provide increased rate limits compared with a free personal account; access details will follow soon.</p>
+                    <article class="submission-detail">
+                        <div class="submission-title-row">
+                            <div>
+                                <p class="submission-eyebrow" id="team-eyebrow"></p>
+                                <h2 id="team-name"></h2>
+                                <p id="team-model"></p>
+                            </div>
+                            <span class="award-pill" id="team-award-badge" hidden></span>
+                        </div>
+
+                        <div class="summary-card">
+                            <span class="summary-label">AI-generated report summary</span>
+                            <h3 id="summary-punchline"></h3>
+                            <p id="summary-body"></p>
+                            <small>AI-generated; verify details against the submitted report.</small>
+                        </div>
+
+                        <div class="report-card">
+                            <div class="report-card-heading">
+                                <h3>Submitted technical report</h3>
+                                <div><a id="raw-report-link" href="#" target="_blank" rel="noreferrer">Open PDF</a> &middot; <a id="download-report-link" href="#">Download</a></div>
+                            </div>
+                            <iframe class="report-frame" id="report-frame" title="Submitted technical report" loading="eager"></iframe>
+                        </div>
+                    </article>
+
+                    <aside class="score-summary" aria-label="Official performance scores">
+                        <div class="primary-score-box">
+                            <span>Pass³ <small>Primary score</small></span>
+                            <strong id="primary-score"></strong>
+                            <p>A task counts only when all three trials succeed.</p>
+                            <small id="primary-rank"></small>
+                        </div>
+                        <div class="score-list" id="score-list"></div>
+                        <div class="score-guide">
+                            <h3>How to read the scores</h3>
+                            <p><strong>Pass³</strong> requires all three trials for a task to succeed. <strong>Pass@3</strong> requires at least one successful trial.</p>
+                            <p><strong>Pass@1</strong> is the mean single-trial success rate across the benchmark. Successful trials is the raw total across 90 runs.</p>
+                            <p><strong>Success consistency</strong> measures how often an initial task success is repeated across the remaining trials. Latency, tokens, and cost measure efficiency; lower is better.</p>
+                            <p class="rank-guide">Ranks and color shading compare submissions within the same track. Gray cards indicate that a reliable comparison was unavailable.</p>
+                        </div>
+                        <p class="telemetry-note"><strong>Telemetry note:</strong> Latency and token figures were self-reported by submissions and could not be independently verified. Cost is estimated from those reported tokens using standardized pricing and a 75% prompt-cache assumption.</p>
+                    </aside>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- Hidden Test Panel -->
-        <div class="lb-panel" id="panel-test">
-            <div class="lb-note">
-                <strong>Hidden Test Set Results</strong> - Updated after the final evaluation on Jul 19. Final rankings and awards are determined from that round.
-            </div>
-            <div style="text-align:center;padding:3rem 0;color:var(--color-text-light);">
-                <p style="font-size:1.2rem;font-weight:600;margin-bottom:0.5rem;">Not Yet Available</p>
-                <p>Hidden test set results will be published after the final evaluation on Jul 19.</p>
-            </div>
-        </div>
+</main>
 
-    </div>
-</section>
-
-<!-- How scoring works -->
-<section class="section-alt">
-    <div class="container" style="max-width:820px;margin:0 auto;">
-        <h2 class="section-title">How Scoring Works</h2>
-        <p class="section-subtitle">Pass^3 measures deployment-ready consistency, not average performance.</p>
-
-        <div class="callout">
-            <strong>Pass^3:</strong> A task scores 1 only if the agent solves it correctly in <em>all 3 independent trials</em>. The aggregate Pass^3 is the fraction of tasks scored 1.<br><br>
-            <strong>Pass@3:</strong> Shown for comparison. A task scores 1 if solved in <em>at least 1 of 3 trials</em>. The gap between Pass@3 and Pass^3 reveals consistency issues.
-        </div>
-
-        <p style="text-align:center;margin-top:1.5rem;">
-            <a href="data.html#pass3" class="btn btn-outline btn-sm">Learn more about the metric &rarr;</a>
-        </p>
-    </div>
-</section>
-
-<!-- Footer -->
 <footer class="site-footer">
     <div class="container">
         <div class="footer-grid">
-            <div class="footer-col">
-                <p class="footer-about"><strong>CAR-bench Challenge</strong> @ IJCAI-ECAI 2026, Bremen, Germany. Building reliable LLM agents under real-world uncertainty.</p>
-                <p class="footer-contact">Join <a href="https://discord.gg/SJnVC2wuW" target="_blank">Discord</a> for questions. For personal inquiries: <a href="mailto:johannes1.kirmayr@uni-a.de">johannes1.kirmayr@uni-a.de</a></p>
-            </div>
-            <div class="footer-col">
-                <h4>Competition</h4>
-                <ul>
-                    <li><a href="tracks.html">Tracks</a></li>
-                    <li><a href="data.html">Data &amp; Starter Kit</a></li>
-                    <li><a href="leaderboard.html">Leaderboard</a></li>
-                    <li><a href="rules.html">Rules</a></li>
-        
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="https://aclanthology.org/2026.acl-long.1886/" target="_blank">Paper</a></li>
-                    <li><a href="https://github.com/CAR-bench/car-bench-ijcai" target="_blank">GitHub</a></li>
-                    <li><a href="https://huggingface.co/datasets/johanneskirmayr/car-bench-dataset" target="_blank">Dataset (HF)</a></li>
-                    <li><a href="benchmark.html">Benchmark Details</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="organizers.html">Organizers</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Community</h4>
-                <ul>
-                    <li><a href="https://discord.gg/SJnVC2wuW" target="_blank">Discord</a></li>
-                    <li><a href="https://github.com/CAR-bench/car-bench-ijcai" target="_blank">GitHub</a></li>
-                </ul>
-            </div>
+            <div class="footer-col"><p class="footer-about"><strong>CAR-bench Challenge</strong> @ IJCAI-ECAI 2026, Bremen, Germany. Building reliable LLM agents under real-world uncertainty.</p><p class="footer-contact">Join <a href="https://discord.gg/SJnVC2wuW" target="_blank">Discord</a> for questions. For personal inquiries: <a href="mailto:johannes1.kirmayr@uni-a.de">johannes1.kirmayr@uni-a.de</a></p></div>
+            <div class="footer-col"><h4>Competition</h4><ul><li><a href="tracks.html">Tracks</a></li><li><a href="data.html">Data &amp; Starter Kit</a></li><li><a href="leaderboard.html">Results</a></li><li><a href="rules.html">Rules</a></li></ul></div>
+            <div class="footer-col"><h4>Resources</h4><ul><li><a href="https://aclanthology.org/2026.acl-long.1886/" target="_blank">Paper</a></li><li><a href="https://github.com/CAR-bench/car-bench-ijcai" target="_blank">GitHub</a></li><li><a href="benchmark.html">Benchmark Details</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+            <div class="footer-col"><h4>Community</h4><ul><li><a href="https://discord.gg/SJnVC2wuW" target="_blank">Discord</a></li><li><a href="https://github.com/CAR-bench/car-bench-ijcai" target="_blank">GitHub</a></li></ul></div>
         </div>
-        <div class="footer-bottom">
-            <span>&copy; 2026 CAR-bench. Released under the <a href="https://github.com/CAR-bench/car-bench-ijcai/blob/main/LICENSE">MIT License</a>.</span>
-            <div class="footer-bottom-links">
-                <a href="organizers.html#contact">Contact</a>
-                <a href="disclaimer.html">Disclaimer</a>
-                <a href="privacy.html">Privacy</a>
-                <a href="#imprint" onclick="document.getElementById('imprint').style.display=document.getElementById('imprint').style.display==='block'?'none':'block';return false;">Imprint</a>
-            </div>
-        </div>
-        <div id="imprint" style="display:none;text-align:left;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--color-border);font-size:0.82rem;color:var(--color-text-light);line-height:1.6;">
-            <strong>Imprint (&sect; 5 TMG)</strong><br>
-            Johannes Kirmayr M.Sc.<br>
-            Chair for Human-Centered Artificial Intelligence<br>
-            Universit&auml;tsstra&szlig;e 6a, 86159 Augsburg, Germany<br>
-            Email: <a href="mailto:johannes1.kirmayr@uni-a.de">johannes1.kirmayr@uni-a.de</a>
-        </div>
-        </div>
+        <div class="footer-bottom"><span>&copy; 2026 CAR-bench. Released under the <a href="https://github.com/CAR-bench/car-bench-ijcai/blob/main/LICENSE">MIT License</a>.</span><div class="footer-bottom-links"><a href="organizers.html#contact">Contact</a><a href="disclaimer.html">Disclaimer</a><a href="privacy.html">Privacy</a></div></div>
     </div>
 </footer>
 
+<script src="assets/data/competition-results.js?v=20260806-final"></script>
+    <script src="assets/data/competition-awards.js?v=20260806-results20"></script>
+<script src="assets/data/competition-baselines.js?v=20260806-results9"></script>
+<script src="assets/js/results-common.js?v=20260805-results"></script>
+<script src="assets/js/leaderboard-results.js?v=20260806-results13"></script>
 <script src="assets/js/main.js?v=20260519-registration"></script>
 </body>
 </html>
