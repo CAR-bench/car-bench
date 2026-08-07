@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css?v=20260519-registration">
-    <link rel="stylesheet" href="assets/css/leaderboard-results.css?v=20260806-results10">
+    <link rel="stylesheet" href="assets/css/leaderboard-results.css?v=20260807-results11">
 </head>
 <body>
 
@@ -147,6 +147,7 @@
                             <span>Pass³ <small>Primary score</small></span>
                             <strong id="primary-score"></strong>
                             <p>A task counts only when all three trials succeed.</p>
+                            <small class="primary-category-scores" id="primary-category-scores"></small>
                             <small id="primary-rank"></small>
                         </div>
                         <div class="score-list" id="score-list"></div>
@@ -154,6 +155,7 @@
                             <h3>How to read the scores</h3>
                             <p><strong>Pass³</strong> requires all three trials for a task to succeed. <strong>Pass@3</strong> requires at least one successful trial.</p>
                             <p><strong>Pass@1</strong> is the mean single-trial success rate across the benchmark. Successful trials is the raw total across 90 runs.</p>
+                            <p><strong>Base, Hallucination, and Disambiguation</strong> show the corresponding task-category subscore beneath each pass metric.</p>
                             <p><strong>Success consistency</strong> measures how often an initial task success is repeated across the remaining trials. Latency, tokens, and cost measure efficiency; lower is better.</p>
                             <p class="rank-guide">Ranks and color shading compare submissions within the same track. Gray cards indicate that a reliable comparison was unavailable.</p>
                         </div>
@@ -182,7 +184,7 @@
     <script src="assets/data/competition-awards.js?v=20260806-results20"></script>
 <script src="assets/data/competition-baselines.js?v=20260806-results9"></script>
 <script src="assets/js/results-common.js?v=20260805-results"></script>
-<script src="assets/js/leaderboard-results.js?v=20260806-results13"></script>
+<script src="assets/js/leaderboard-results.js?v=20260807-results14"></script>
 <script src="assets/js/main.js?v=20260519-registration"></script>
 </body>
 </html>

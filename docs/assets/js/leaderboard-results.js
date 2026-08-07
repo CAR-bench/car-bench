@@ -288,7 +288,31 @@
         return `Rank ${place} of ${rank.total}`;
     }
 
-    function metricItem(team, metricKey, label, value, note, formatter, higherIsBetter = true) {
+    function categoryScoreLine(metrics, metricKey) {
+        const categoryMetricKeys = {
+            pass3: 'pass3',
+            passAt3: 'pass_at_3',
+            pass1: 'pass1',
+        };
+        const categoryMetricKey = categoryMetricKeys[metricKey];
+        const categories = metrics.categories;
+        if (!categoryMetricKey || !categories) return '';
+
+        const labels = [
+            ['base', 'Base'],
+            ['hallucination', 'Hallucination'],
+            ['disambiguation', 'Disambiguation'],
+        ];
+        const scores = labels
+            .map(([key, label]) => {
+                const value = categories[key]?.[categoryMetricKey];
+                return Number.isFinite(value) ? `${label}: ${formatPercent(value)}` : null;
+            })
+            .filter(Boolean);
+        return scores.length ? scores.join(' · ') : '';
+    }
+
+    function metricItem(team, metricKey, label, value, note, formatter, higherIsBetter = true, categoryScores = '') {
         const rank = metricRank(team, metricKey, higherIsBetter);
         const stateClass = rank ? ' ranked' : ' unranked';
         const colorStyle = rank ? ` style="--metric-hue:${Math.round(rank.colorScore * 120)}"` : '';
@@ -299,6 +323,7 @@
             <div class="score-item-label"><span>${escapeHtml(label)}</span>${rank?.start === 1 ? '<em>Best</em>' : ''}</div>
             <div class="score-item-value"><strong>${escapeHtml(value)}</strong><small class="score-rank">${escapeHtml(rankLabel(rank))}</small></div>
             <small class="score-item-note">${escapeHtml(note)}</small>
+            ${categoryScores ? `<small class="score-item-category-scores">${escapeHtml(categoryScores)}</small>` : ''}
             <small class="score-item-range">${escapeHtml(range)}</small>
         </div>`;
     }
@@ -317,10 +342,11 @@
         document.getElementById('summary-body').textContent = team.summary.body;
 
         document.getElementById('primary-score').textContent = formatPercent(metrics.pass3);
+        document.getElementById('primary-category-scores').textContent = categoryScoreLine(metrics, 'pass3');
         document.getElementById('primary-rank').textContent = `Rank ${formatRank(metrics.rank)} of ${metrics.rank.total}`;
         document.getElementById('score-list').innerHTML = [
-            metricItem(team, 'passAt3', 'Pass@3', formatPercent(metrics.passAt3), 'Task succeeds in at least one of three trials.', formatPercent),
-            metricItem(team, 'pass1', 'Pass@1', formatPercent(metrics.pass1), 'Mean single-trial success across the benchmark.', formatPercent),
+            metricItem(team, 'passAt3', 'Pass@3', formatPercent(metrics.passAt3), 'Task succeeds in at least one of three trials.', formatPercent, true, categoryScoreLine(metrics, 'passAt3')),
+            metricItem(team, 'pass1', 'Pass@1', formatPercent(metrics.pass1), 'Mean single-trial success across the benchmark.', formatPercent, true, categoryScoreLine(metrics, 'pass1')),
             metricItem(team, 'successfulTrials', 'Successful trials', `${metrics.successfulTrials}/${metrics.successfulTrialsTotal}`, 'Successful task-runs out of 90 total trials.', value => `${formatInteger(value)}/90`),
             metricItem(team, 'successConsistency', 'Success consistency', formatPercent(metrics.successConsistency), '1/3 succeeds = 0% · 2/3 = 50% · 3/3 = 100%.', formatPercent),
             metricItem(team, 'taskLatencyMedianMs', 'Task latency · median', formatSeconds(metrics.taskLatencyMedianMs), `Mean ${formatSeconds(metrics.taskLatencyMeanMs)} · p95 ${formatSeconds(metrics.taskLatencyP95Ms)}.`, formatSeconds, false),
