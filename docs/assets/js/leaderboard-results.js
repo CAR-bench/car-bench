@@ -41,6 +41,15 @@
         return `${slug || 'submission'}-technical-report.pdf`;
     }
 
+    const reportRevisions = {
+        'track_1__team-7': '20260808',
+    };
+
+    function reportUrl(team) {
+        const revision = reportRevisions[team.key];
+        return revision ? `${team.report}?v=${revision}` : team.report;
+    }
+
     function selectView(view, updateUrl = true) {
         activeView = view;
         viewButtons.forEach(button => {
@@ -357,12 +366,13 @@
 
         const rawReport = document.getElementById('raw-report-link');
         const downloadReport = document.getElementById('download-report-link');
-        rawReport.href = team.report;
-        downloadReport.href = team.report;
+        const source = reportUrl(team);
+        rawReport.href = source;
+        downloadReport.href = source;
         downloadReport.download = reportDownloadName(team.teamName);
         const viewer = document.getElementById('report-frame');
         viewer.title = `${team.teamName} technical report`;
-        viewer.src = `${team.report}#view=FitH&toolbar=1&navpanes=0`;
+        viewer.src = `${source}#view=FitH&toolbar=1&navpanes=0`;
     }
 
     function selectTeam(key) {
