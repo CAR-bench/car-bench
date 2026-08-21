@@ -101,6 +101,10 @@
 .award-result-card h3 { margin-top: .55rem; color: var(--color-primary); font-size: 1.2rem; }
 .award-result-card p { margin-top: .45rem; color: var(--color-text-light); font-size: .88rem; line-height: 1.55; }
 .award-result-card .award-rationale { color: var(--color-text); }
+.award-prizes { margin-top: .9rem; padding: .75rem .85rem; border-radius: 7px; background: var(--color-bg-alt); color: var(--color-text-light); font-size: .78rem; }
+.award-prizes strong { display: block; margin-bottom: .25rem; color: var(--color-primary); font-size: .68rem; letter-spacing: .05em; text-transform: uppercase; }
+.award-prizes ul { margin: 0 0 0 1rem; }
+.award-prizes li + li { margin-top: .16rem; }
 .award-card-footer { display: flex; justify-content: space-between; gap: 1rem; margin-top: .9rem; padding-top: .7rem; border-top: 1px solid var(--color-border); font-size: .82rem; }
 .award-card-footer a { font-weight: 700; text-decoration: none; }
 
