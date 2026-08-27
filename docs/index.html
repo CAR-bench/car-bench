@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css?v=20260519-registration">
+    <link rel="stylesheet" href="assets/css/leaderboard-results.css?v=20260826-home-awards">
 </head>
 <body>
 
@@ -31,7 +32,6 @@
             <li><a href="tracks.html">Tracks</a></li>
             <li><a href="data.html">Data &amp; Starter Kit</a></li>
             <li><a href="rules.html">Rules</a></li>
-            <li><a href="submission.html">Submission</a></li>
             <li><a href="benchmark.html">Benchmark</a></li>
             <li><a href="organizers.html">Organizers</a></li>
         </ul>
@@ -101,48 +101,13 @@
     </div>
 </section>
 
-<!-- Timeline -->
-<section style="padding:2.5rem 0;">
+<!-- Award Winners -->
+<section class="section-alt awards-block" id="awards">
     <div class="container">
-        <div class="announcements">
-            <h3>Timeline <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.75rem;color:var(--color-text-light);">- all deadlines AoE</span></h3>
-            <div class="announce-item">
-                <span class="announce-date">May 25</span>
-                <span>Competition opens - data, docs, and baseline agent released. <a href="data.html">Get started now &rarr;</a></span>
-            </div>
-            <div class="announce-item">
-                <span class="announce-date">May&ndash;Jul 2026</span>
-                <span>Open development with live dev-set leaderboard.</span>
-            </div>
-            <div class="announce-item cancelled">
-                <span class="announce-date"><del style="text-decoration-thickness:2px;">Jul 10</del></span>
-                <span><del class="cancelled-text" style="text-decoration-thickness:2px;">1st evaluation on hidden test set. Scores returned to participants.</del> <strong class="cancel-note" style="color:var(--color-accent);">Cancelled</strong></span>
-            </div>
-            <div class="announce-item">
-                <span class="announce-date">Jul 13</span>
-                <span>Final submission Google Form opens.</span>
-            </div>
-            <div class="announce-item">
-                <span class="announce-date">Jul 19</span>
-                <span>Final evaluation on hidden test set. Rankings determined.</span>
-            </div>
-            <div class="announce-item">
-                <span class="announce-date">Jul 22</span>
-                <span>Technical report submission opens.</span>
-            </div>
-            <div class="announce-item">
-                <span class="announce-date">Jul 26</span>
-                <span>Technical report submission deadline (4 pages, IJCAI format).</span>
-            </div>
-            <div class="announce-item">
-                <span class="announce-date">Aug 7</span>
-                <span>Winners announced.</span>
-            </div>
-            <div class="announce-item">
-                <span class="announce-date">Aug 15&ndash;21</span>
-                <span>Presentations at IJCAI-ECAI 2026, Bremen, Germany.</span>
-            </div>
-        </div>
+        <p class="eyebrow">Award Winners</p>
+        <h2 class="section-title">Recognized teams</h2>
+        <p class="section-subtitle">The Rank Award recognizes the strongest Track 1 Pass&sup3; result; the Innovation and Cerebras Awards recognize distinctive advances in reliable and compute-aware agent design.</p>
+        <div class="award-results-grid" id="award-grid"></div>
     </div>
 </section>
 
@@ -205,7 +170,7 @@
             <div class="track-card open">
                 <div class="track-icon">&#9881;</div>
                 <h3>Track 1: Open Track</h3>
-                <p class="track-pitch">Use any LLM, provider, framework, or architecture, from Claude Agents SDK and LangGraph to fully custom harnesses. Compete for the Pass^3 Rank Award and an Innovation Award focused on real-world deployment quality.</p>
+                <p class="track-pitch">Participants used any LLM, provider, framework, or architecture, from Claude Agents SDK and LangGraph to fully custom harnesses. The track recognized both hidden-set Pass^3 ranking and innovation in real-world deployment quality.</p>
                 <a href="tracks.html#open" class="track-link">Learn more &rarr;</a>
             </div>
             <div class="track-card cerebras">
@@ -216,51 +181,6 @@
                 <a href="tracks.html#cerebras" class="track-link">Learn more &rarr;</a>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- Awards & Prizes -->
-<section class="section-alt">
-    <div class="container">
-        <p class="eyebrow" style="color:#e53e3e;">Awards &amp; Prizes</p>
-
-        <div class="tracks-grid">
-            <div class="track-card open">
-                <div class="track-icon">&#127942;</div>
-                <h3>Open Track</h3>
-                <ul style="font-size:0.93rem;color:var(--color-text-light);line-height:1.7;margin:0.3rem 0 0 1.1rem;">
-                    <li><strong>Rank Award</strong> - 1 team, decided solely by hidden-set Pass^3</li>
-                    <li><strong>Innovation Award</strong> - estimated 2-3 teams, judged on real-world deployment quality</li>
-                </ul>
-                <h4 style="margin-top:1rem;font-size:0.9rem;">Prizes</h4>
-                <ul style="font-size:0.93rem;color:var(--color-text-light);line-height:1.7;margin:0.3rem 0 0 1.1rem;">
-                    <li><strong>$1,000 Anthropic API credits</strong> for the Rank Award winner</li>
-                    <li><strong>$4,000 Anthropic API credits pool</strong> for Innovation Award winners</li>
-                    <li><strong>$1,500 prize</strong> for the Open Track winner, sponsored by <a href="https://openstream.ai" target="_blank" rel="noopener noreferrer">Openstream.ai</a></li>
-                    <li>Certificate</li>
-                    <li>(Optional) Oral presentation at IJCAI-ECAI 2026 competition slot</li>
-                    <li>(Optional) Co-authorship on IJCAI 2027 demo paper, reporting experience of the 2026 competition</li>
-                </ul>
-            </div>
-            <div class="track-card cerebras">
-                <div class="track-icon">&#9889;</div>
-                <h3>Cerebras Fast-Reasoning Track</h3>
-                <ul style="font-size:0.93rem;color:var(--color-text-light);line-height:1.7;margin:0.3rem 0 0 1.1rem;">
-                    <li><strong>Cerebras Award</strong> - 2 teams, judged on compute-time-aware faster-inference design</li>
-                </ul>
-                <h4 style="margin-top:1rem;font-size:0.9rem;">Prizes</h4>
-                <ul style="font-size:0.93rem;color:var(--color-text-light);line-height:1.7;margin:0.3rem 0 0 1.1rem;">
-                    <li><strong>Codex Pro:</strong> 12-month allocation for the 2 winning teams, sponsored by OpenAI</li>
-                    <li><strong>$1,500 prize</strong> for the Cerebras Fast-Reasoning Track winner, sponsored by <a href="https://openstream.ai" target="_blank" rel="noopener noreferrer">Openstream.ai</a></li>
-                    <li>Certificate</li>
-                    <li>(Optional) Oral presentation at IJCAI-ECAI 2026 competition slot</li>
-                    <li>(Optional) Co-authorship on IJCAI 2027 demo paper, reporting experience of the 2026 competition</li>
-                </ul>
-            </div>
-        </div>
-        <p style="text-align:center;margin-top:0.8rem;font-size:0.85rem;color:var(--color-text-light);">
-            Technical report requirements and submission are maintained on the <a href="submission.html">submission page &rarr;</a>
-        </p>
     </div>
 </section>
 
@@ -338,7 +258,7 @@
     <div class="container" style="text-align:center;">
         <p class="eyebrow">Prior Recognition</p>
         <h2 class="section-title">Validated by the Community</h2>
-        <p class="section-subtitle">CAR-bench was accepted at <strong>ACL 2026 Main</strong>, selected as <strong>Hugging Face Paper of the Day</strong>, and won <strong>1st place</strong> at UC Berkeley&rsquo;s AgentX-AgentBeats Competition (Computer-Use Track, Google DeepMind-sponsored). This is the first academic competition dedicated to LLM agent reliability and limit-awareness.</p>
+        <p class="section-subtitle">CAR-bench won the <strong>Outstanding Paper Award at ACL 2026 Main</strong>, was selected as <strong>Hugging Face Paper of the Day</strong>, and won <strong>1st place</strong> at UC Berkeley&rsquo;s AgentX-AgentBeats Competition (Computer-Use Track, Google DeepMind-sponsored). This is the first academic competition dedicated to LLM agent reliability and limit-awareness.</p>
     </div>
 </section>
 
@@ -490,6 +410,10 @@
     </div>
 </footer>
 
+<script src="assets/data/competition-results.js?v=20260806-final"></script>
+<script src="assets/data/competition-awards.js?v=20260821-prizes"></script>
+<script src="assets/js/results-common.js?v=20260805-results"></script>
+<script src="assets/js/home-awards.js?v=20260826-home-awards"></script>
 <script src="assets/js/main.js?v=20260519-registration"></script>
 </body>
 </html>

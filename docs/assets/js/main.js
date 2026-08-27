@@ -5,24 +5,6 @@ function toggleNav() {
     document.querySelector('.nav-links')?.classList.toggle('open');
 }
 
-function closeRegisterMenus() {
-    document.querySelectorAll('.register-menu.open').forEach(menu => {
-        menu.classList.remove('open');
-        menu.querySelector('.register-toggle')?.setAttribute('aria-expanded', 'false');
-    });
-}
-
-function toggleRegisterMenu(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const menu = event.currentTarget.closest('.register-menu');
-    if (!menu) return;
-    const shouldOpen = !menu.classList.contains('open');
-    closeRegisterMenus();
-    menu.classList.toggle('open', shouldOpen);
-    event.currentTarget.setAttribute('aria-expanded', String(shouldOpen));
-}
-
 // Mark active nav link based on current path
 (function markActiveNav() {
     const path = window.location.pathname.split('/').pop() || 'index.html';
@@ -74,12 +56,4 @@ function initLeaderboardTabs() {
 // Auto-init when DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     initLeaderboardTabs();
-});
-
-document.addEventListener('click', event => {
-    if (!event.target.closest('.register-menu')) closeRegisterMenus();
-});
-
-document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeRegisterMenus();
 });

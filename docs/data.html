@@ -25,7 +25,6 @@
             <li><a href="tracks.html">Tracks</a></li>
             <li><a href="data.html">Data &amp; Starter Kit</a></li>
             <li><a href="rules.html">Rules</a></li>
-            <li><a href="submission.html">Submission</a></li>
             <li><a href="benchmark.html">Benchmark</a></li>
             <li><a href="organizers.html">Organizers</a></li>
         </ul>
@@ -33,20 +32,6 @@
             <a href="https://discord.gg/SJnVC2wuW" target="_blank" class="discord-icon" title="Join our Discord" aria-label="Discord">
                 <svg width="20" height="15" viewBox="0 0 71 55" fill="none"><path d="M60.1 4.9A58.5 58.5 0 0045.4.2a.2.2 0 00-.2.1 40.8 40.8 0 00-1.8 3.7 54 54 0 00-16.2 0A26.5 26.5 0 0025.4.3a.2.2 0 00-.2-.1A58.4 58.4 0 0010.5 4.9a.2.2 0 00-.1.1C1.5 18.7-.9 32.2.3 45.5v.1a58.7 58.7 0 0017.7 9a.2.2 0 00.3-.1 42 42 0 003.6-5.9.2.2 0 00-.1-.3 38.6 38.6 0 01-5.5-2.7.2.2 0 01 0-.4c.4-.3.7-.6 1.1-.8a.2.2 0 01.2 0c11.6 5.3 24.1 5.3 35.5 0a.2.2 0 01.2 0l1.1.9a.2.2 0 010 .3c-1.8 1-3.6 1.9-5.5 2.7a.2.2 0 00-.1.3 47.2 47.2 0 003.6 5.9.2.2 0 00.3.1A58.5 58.5 0 0070.4 45.6v-.1c1.4-15-2.3-28-9.8-39.6a.2.2 0 00-.1-.1zM23.7 37.3c-3.4 0-6.2-3.1-6.2-7s2.7-7 6.2-7 6.3 3.2 6.2 7-2.8 7-6.2 7zm23 0c-3.4 0-6.2-3.1-6.2-7s2.7-7 6.2-7 6.3 3.2 6.2 7-2.8 7-6.2 7z" fill="currentColor"/></svg>
             </a>
-            <div class="register-menu">
-                <button class="btn btn-cta btn-sm register-toggle" type="button" aria-expanded="false" aria-haspopup="true" onclick="toggleRegisterMenu(event)">Register</button>
-                <div class="register-dropdown" role="menu">
-                    <a href="https://forms.gle/7Dj2uD1sw6n42d6u5" target="_blank" rel="noopener noreferrer" class="register-option preferred" role="menuitem">
-                        <span class="register-badge">Preferred</span>
-                        <strong>Google Form</strong>
-                        <span>Fastest registration path</span>
-                    </a>
-                    <a href="registration.html" class="register-option" role="menuitem">
-                        <strong>Email fallback</strong>
-                        <span>If Google Forms is inaccessible</span>
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 </nav>
@@ -55,7 +40,7 @@
 <div class="page-header">
     <div class="container">
         <h1>Data &amp; Starter Kit</h1>
-        <p>Clone the starter kit, choose a track, run a scenario config, and validate the same Docker interface organizers will use.</p>
+        <p>Clone the starter kit, choose a track configuration, run a scenario, and reproduce the Docker interface used for official evaluation.</p>
     </div>
 </div>
 
@@ -64,7 +49,7 @@
     <div class="container">
         <div class="rule-section" style="max-width:820px;margin:0 auto;">
             <h2>1. What You Get</h2>
-            <p>The competition starter kit provides the code and configs needed to develop, test, package, and submit a CAR-bench agent:</p>
+            <p>The starter kit provides the code and configurations needed to develop, test, package, and evaluate a CAR-bench agent:</p>
             <ul>
                 <li><strong>Train set:</strong> 129 public tasks (50 Base, 48 Hallucination, 31 Disambiguation) for development.</li>
                 <li><strong>Public validation split:</strong> 125 public tasks (50 Base, 50 Hallucination, 25 Disambiguation) for local validation. These are not the hidden final tasks.</li>
@@ -84,7 +69,7 @@
                 <li><strong>Track 1 starter:</strong> a minimal agent-under-test template for any model, provider, or architecture.</li>
                 <li><strong>Track 2 references:</strong> Cerebras SDK/direct API agents, including a direct executor and a planner/executor template.</li>
                 <li><strong>Scenario configs:</strong> TOML files that define local, Docker, and GHCR validation runs.</li>
-                <li><strong>A2A interface:</strong> the message protocol used between the evaluator and your submitted agent.</li>
+                <li><strong>A2A interface:</strong> the message protocol used between the evaluator and each agent under test.</li>
             </ul>
 
             <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1.2rem;">
@@ -106,15 +91,15 @@
 
             <p><strong>Prerequisites:</strong> Python 3.11+, <a href="https://docs.astral.sh/uv/" target="_blank">uv</a>, Docker for Docker/GHCR validation, and the API credentials required by your chosen track.</p>
 
-            <h3>Participant workflow</h3>
+            <h3>Reproduction workflow</h3>
             <ol>
-                <li><strong>Choose a track:</strong> Track 1 is open to any model, framework, or architecture. Track 2 is limited to 15 teams and uses direct Cerebras-hosted <code>gpt-oss</code> inference for fast-reasoning harnesses.</li>
+                <li><strong>Choose a track configuration:</strong> Track 1 allowed any model, framework, or architecture. Track 2 used direct Cerebras-hosted <code>gpt-oss</code> inference for fast-reasoning harnesses and was limited to 15 competition teams.</li>
                 <li><strong>Run a scenario config:</strong> start with <code>local_smoke.toml</code>, then move to public validation and Docker scenarios.</li>
-                <li><strong>Prepare submission:</strong> publish a public digest-pinned GHCR agent image, prepare <code>scenario.toml</code> with the official evaluator and hidden-set config, and list required secret names without secret values. See the <a href="submission.html">submission checklist</a>.</li>
+                <li><strong>Reproduce competition packaging:</strong> build a digest-pinned GHCR agent image and pair it with <code>scenario.toml</code> using the official evaluator configuration. See the <a href="submission.html">submission archive</a> for the exact evaluated artifact format.</li>
             </ol>
 
             <h3>Common setup</h3>
-            <p>Fork the starter repository first and clone your fork. Your fork is where your agent code, Dockerfile, scenario configs, and technical-report notes should live. Official submission will be a public digest-pinned GHCR agent image plus <code>scenario.toml</code>, not a pull request.</p>
+            <p>Fork the starter repository first and clone your fork. Your fork is where your agent code, Dockerfile, scenario configurations, and experiment notes should live. Competition submissions used a public digest-pinned GHCR agent image plus <code>scenario.toml</code>, not a pull request.</p>
             <div class="callout">
                 <pre style="margin:0;white-space:pre-wrap;"><code>git clone https://github.com/YOUR_ORG_OR_USERNAME/car-bench-ijcai.git
 cd car-bench-ijcai
@@ -158,7 +143,7 @@ TRACK2_PLANNER_MODEL=gpt-oss-120b   # planner/executor template only
 TRACK2_PLANNER_REASONING_EFFORT=high
 TRACK2_PLANNER_MAX_COMPLETION_TOKENS=4096</code></pre>
             </div>
-            <p>During ordinary development, free personal Cerebras accounts can have strict request and token rate limits. Use smoke scenarios first, keep completion-token caps tight, and schedule longer validation runs instead of launching many jobs at once. Cerebras will provide increased rate limits compared with a free personal account; access details will follow soon. Participants may self-host the open-source models used by Cerebras during development. Codex Pro is not the submitted-agent runtime for these templates.</p>
+            <p>Cerebras accounts can have request and token rate limits. Use smoke scenarios first, keep completion-token caps tight, and schedule longer validation runs instead of launching many jobs at once. Competition participants could also self-host the open-source models used by Cerebras during development. Codex Pro was not the submitted-agent runtime for these templates.</p>
 
             <h3>Choose your first run</h3>
             <div class="table-wrapper">
@@ -191,7 +176,7 @@ TRACK2_PLANNER_MAX_COMPLETION_TOKENS=4096</code></pre>
                 <li><strong>Local smoke:</strong> fastest iteration; one train task from each task type.</li>
                 <li><strong>Local test set:</strong> full public validation split with three trials.</li>
                 <li><strong>Docker local build:</strong> verifies your Dockerfile and runtime assumptions.</li>
-                <li><strong>GHCR validation:</strong> tests the image/config style expected for official submission.</li>
+                <li><strong>GHCR validation:</strong> tests the image/config style used for official competition submissions.</li>
             </ul>
 
             <p>For full commands, scenario structure, and Track 2 Cerebras setup details, read the starter repo README after cloning.</p>
@@ -347,7 +332,6 @@ TRACK2_PLANNER_MAX_COMPLETION_TOKENS=4096</code></pre>
             Chair for Human-Centered Artificial Intelligence<br>
             Universit&auml;tsstra&szlig;e 6a, 86159 Augsburg, Germany<br>
             Email: <a href="mailto:johannes1.kirmayr@uni-a.de">johannes1.kirmayr@uni-a.de</a>
-        </div>
         </div>
     </div>
 </footer>

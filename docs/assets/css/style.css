@@ -134,92 +134,6 @@ nav.topbar {
     gap: 0.7rem;
 }
 
-.register-menu {
-    position: relative;
-}
-
-.register-toggle {
-    box-shadow: 0 2px 8px rgba(246,173,28,0.2);
-}
-
-.register-dropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 0.55rem);
-    right: 0;
-    width: 292px;
-    max-width: calc(100vw - 2rem);
-    padding: 0.45rem;
-    background: white;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    box-shadow: 0 18px 42px rgba(15,46,82,0.16);
-    z-index: 1100;
-}
-
-.register-menu.open .register-dropdown {
-    display: grid;
-    gap: 0.35rem;
-}
-
-.register-dropdown::before {
-    content: '';
-    position: absolute;
-    top: -7px;
-    right: 22px;
-    width: 12px;
-    height: 12px;
-    background: white;
-    border-left: 1px solid var(--color-border);
-    border-top: 1px solid var(--color-border);
-    transform: rotate(45deg);
-}
-
-.register-option {
-    position: relative;
-    display: grid;
-    gap: 0.1rem;
-    padding: 0.75rem 0.85rem;
-    border-radius: 7px;
-    color: var(--color-text);
-    text-decoration: none;
-    border: 1px solid transparent;
-}
-
-.register-option:hover {
-    color: var(--color-primary);
-    background: var(--color-bg-alt);
-}
-
-.register-option.preferred {
-    background: #fff8e1;
-    border-color: rgba(246,173,28,0.45);
-}
-
-.register-option strong {
-    font-size: 0.92rem;
-    color: var(--color-primary);
-}
-
-.register-option span:last-child {
-    font-size: 0.78rem;
-    color: var(--color-text-light);
-    line-height: 1.35;
-}
-
-.register-badge {
-    width: fit-content;
-    margin-bottom: 0.15rem;
-    padding: 0.12rem 0.45rem;
-    border-radius: 999px;
-    background: var(--color-cta);
-    color: #1a1a1a;
-    font-size: 0.66rem;
-    font-weight: 800;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-}
-
 .discord-icon {
     display: inline-flex;
     align-items: center;
@@ -390,18 +304,6 @@ nav.topbar {
     gap: 0.8rem;
     justify-content: center;
     flex-wrap: wrap;
-}
-
-.registration-note {
-    margin: 0.8rem auto 0;
-    color: var(--color-text-light);
-    font-size: 0.9rem;
-    text-align: center;
-}
-
-.registration-note a {
-    font-weight: 600;
-    text-decoration: none;
 }
 
 /* Hero logo strip */
@@ -1210,48 +1112,6 @@ details[open] .faq-q::after { content: '–'; }
 .callout.warning { background: #fffaf0; border-left-color: var(--color-cta); }
 .callout.danger { background: #fff5f5; border-left-color: var(--color-accent); }
 
-.registration-actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-    margin-bottom: 1.5rem;
-}
-
-.registration-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
-    margin: 1.5rem 0 2rem;
-}
-
-.registration-card {
-    background: white;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 1.25rem;
-}
-
-.registration-card.preferred {
-    border-color: rgba(246,173,28,0.65);
-    box-shadow: inset 0 4px 0 var(--color-cta);
-}
-
-.registration-card h2,
-.registration-card h3 {
-    color: var(--color-primary);
-    font-size: 1.12rem;
-    margin-bottom: 0.45rem;
-}
-
-.registration-card p {
-    color: var(--color-text-light);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 0.9rem;
-}
-
 .registration-template {
     background: var(--color-bg-dark);
     color: #e2e8f0;
@@ -1311,5 +1171,4 @@ details[open] .faq-q::after { content: '–'; }
     .hero h1 { font-size: 1.7rem; }
     .hero .subtitle { font-size: 1rem; }
     .nav-actions { gap: 0.45rem; }
-    .registration-grid { grid-template-columns: 1fr; }
 }
