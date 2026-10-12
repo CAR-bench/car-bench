@@ -7,6 +7,7 @@ from car_bench.envs.tool_manipulation import (
     remove_result_element,
     remove_tool_elements,
 )
+from car_bench.versions import version_info
 from car_bench.types import (
     RESPOND_ACTION_NAME,
     USER_AS_A_TOOL_ACTION_NAMES,
@@ -257,6 +258,7 @@ class AgentOrchestrator:
             "total_tokens": state.total_tokens,
             "elapsed_time_s": state.elapsed_time_s,
             "tokens_per_minute": state.tokens_per_minute,
+            **version_info(),
         }
 
         # Add information about removed elements to info

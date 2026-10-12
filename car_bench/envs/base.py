@@ -23,6 +23,7 @@ from car_bench.envs.tool_execution_error_evaluator import (
 )
 from car_bench.envs.user.user import UserStrategy, load_user
 from car_bench.envs.user.user_end_conversation import end_conversation_failure
+from car_bench.versions import POLICY_VERSION
 from car_bench.types import (
     RESPOND_ACTION_NAME,
     USER_AS_A_TOOL_ACTION_NAMES,
@@ -418,6 +419,7 @@ class Env(object):
             r_tool_execution=r_tool_execution,
             tool_execution_errors=tool_execution_errors,
             r_policy=r_policy,
+            policy_version=POLICY_VERSION,
             policy_llm_errors=policy_llm_errors,
             policy_aut_errors=policy_errors_aut,
             r_user_end_conversation=r_user_end_conversation,

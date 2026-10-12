@@ -69,6 +69,7 @@ class RewardInfo(BaseModel):
     r_tool_execution: Optional[float] = None
     tool_execution_errors: Optional[List[str]] = []
     r_policy: Optional[float] = None
+    policy_version: Optional[str] = None  # policy version this score was computed with
     policy_llm_errors: Optional[List[str]] = []
     policy_aut_errors: Optional[List[str]] = []
     r_user_end_conversation: Optional[float] = None

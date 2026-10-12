@@ -1,6 +1,8 @@
 import os
 import re
 
+from car_bench.versions import POLICY_VERSION  # noqa: F401  (bump in car_bench/versions.py)
+
 FOLDER_PATH = os.path.dirname(__file__)
 
 with open(os.path.join(FOLDER_PATH, "wiki.md"), "r") as f:
