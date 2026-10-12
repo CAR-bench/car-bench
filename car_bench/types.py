@@ -1,3 +1,4 @@
+import time
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
@@ -91,6 +92,9 @@ class AgentState(BaseModel):
     turn_counter: int = 0
     least_prompt_tokens: float = float("inf")
     latest_prompt_tokens: int = 0
+    total_prompt_tokens: int = 0
+    total_completion_tokens: int = 0
+    start_time_s: float = 0.0
 
     @property
     def average_llm_induced_latency_per_turn_ms(self) -> float:
@@ -99,6 +103,25 @@ class AgentState(BaseModel):
             if self.turn_counter > 0
             else 0.0
         )
+
+    @property
+    def total_tokens(self) -> int:
+        return self.total_prompt_tokens + self.total_completion_tokens
+
+    @property
+    def elapsed_time_s(self) -> float:
+        """Wall-clock seconds since the agent state was created."""
+        if self.start_time_s <= 0:
+            return 0.0
+        return time.time() - self.start_time_s
+
+    @property
+    def tokens_per_minute(self) -> float:
+        """Compute tokens per minute based on wall-clock elapsed time."""
+        elapsed = self.elapsed_time_s
+        if elapsed <= 0:
+            return 0.0
+        return self.total_tokens / (elapsed / 60.0)
 
 
 class SolveResult(BaseModel):

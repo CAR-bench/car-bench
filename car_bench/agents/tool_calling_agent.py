@@ -31,6 +31,9 @@ class ToolCallingAgent(Agent):
         self.thinking = thinking
         self.interleaved_thinking = interleaved_thinking
         self.reasoning_effort = reasoning_effort
+        # Some newer Anthropic models (e.g. Sonnet 5) reject `temperature` outright;
+        # once detected, stop sending it for the rest of this agent's calls.
+        self._temperature_supported = True
 
     def get_init_state(
         self, system_prompt: str, initial_observation: str
@@ -49,7 +52,8 @@ class ToolCallingAgent(Agent):
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": initial_observation},
-            ]
+            ],
+            start_time_s=time.time(),
         )
 
     def generate_next_message(
@@ -75,8 +79,9 @@ class ToolCallingAgent(Agent):
                     "model": self.model,
                     "custom_llm_provider": self.provider,
                     "tools": tools_info,
-                    "temperature": self.temperature,
                 }
+                if self._temperature_supported:
+                    completion_kwargs["temperature"] = self.temperature
 
                 if self.thinking:
                     if self.reasoning_effort in [
@@ -122,12 +127,16 @@ class ToolCallingAgent(Agent):
                 break
             except Exception as e:
                 print(f"Error calling LLM: {e}.")
+                if "temperature" in str(e) and "deprecated" in str(e):
+                    self._temperature_supported = False
+                    continue
                 if i == 3:
                     raise e
                 time.sleep(120)
 
         # Update metrics in state
         latest_prompt_tokens = res.usage.prompt_tokens
+        completion_tokens = getattr(res.usage, "completion_tokens", 0) or 0
         least_prompt_tokens = state.least_prompt_tokens
         if latest_prompt_tokens < least_prompt_tokens and latest_prompt_tokens > 0:
             least_prompt_tokens = latest_prompt_tokens
@@ -142,6 +151,9 @@ class ToolCallingAgent(Agent):
             state.total_llm_induced_latency_ms + res._response_ms
         )
 
+        total_prompt_tokens = state.total_prompt_tokens + latest_prompt_tokens
+        total_completion_tokens = state.total_completion_tokens + completion_tokens
+
         # Append next message to messages
         messages = state.messages + [next_message]
 
@@ -153,6 +165,9 @@ class ToolCallingAgent(Agent):
             turn_counter=state.turn_counter,
             least_prompt_tokens=least_prompt_tokens,
             latest_prompt_tokens=latest_prompt_tokens,
+            total_prompt_tokens=total_prompt_tokens,
+            total_completion_tokens=total_completion_tokens,
+            start_time_s=state.start_time_s,
         )
 
         return next_message, updated_state

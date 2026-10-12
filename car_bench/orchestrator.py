@@ -219,6 +219,9 @@ class AgentOrchestrator:
                     turn_counter=state.turn_counter + 1,
                     least_prompt_tokens=state.least_prompt_tokens,
                     latest_prompt_tokens=state.latest_prompt_tokens,
+                    total_prompt_tokens=state.total_prompt_tokens,
+                    total_completion_tokens=state.total_completion_tokens,
+                    start_time_s=state.start_time_s,
                 )
 
                 if (
@@ -249,6 +252,11 @@ class AgentOrchestrator:
             "average_llm_induced_latency_per_turn_ms": state.average_llm_induced_latency_per_turn_ms,
             "least_prompt_tokens": state.least_prompt_tokens,
             "latest_prompt_tokens": state.latest_prompt_tokens,
+            "total_prompt_tokens": state.total_prompt_tokens,
+            "total_completion_tokens": state.total_completion_tokens,
+            "total_tokens": state.total_tokens,
+            "elapsed_time_s": state.elapsed_time_s,
+            "tokens_per_minute": state.tokens_per_minute,
         }
 
         # Add information about removed elements to info
