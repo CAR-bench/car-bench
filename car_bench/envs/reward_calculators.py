@@ -219,7 +219,12 @@ def enhance_policy_line_with_context(
     Returns:
         Enhanced policy line or None if policy should be skipped
     """
-    if "REQUIRES_CONFIRMATION" in line:
+    from car_bench.envs.car_voice_assistant.wiki import policy_rule_id
+
+    rule_id = policy_rule_id(line)
+    route_lookup = "get_routes_from_start_to_destination" in performed_action_names
+
+    if rule_id == "004":
         if len(
             performed_action_names.intersection(
                 {
@@ -235,10 +240,7 @@ def enhance_policy_line_with_context(
             )
         return None
 
-    elif (
-        "windows are requested by the user to open more than 25% (absolute position) and AC is ON in that moment"
-        in line
-    ):
+    elif rule_id == "007":
         if len(performed_action_names.intersection({"open_close_window"})) > 0:
             return (
                 line
@@ -246,7 +248,7 @@ def enhance_policy_line_with_context(
             )
         return None
 
-    elif "In certain weather conditions, the vehicle control actions" in line:
+    elif rule_id == "008":
         if (
             len(
                 performed_action_names.intersection(
@@ -257,60 +259,51 @@ def enhance_policy_line_with_context(
         ):
             return None
 
-    elif "user sets the temperature to a single seat zone" in line:
+    elif rule_id == "012":
         if (
             len(performed_action_names.intersection({"set_climate_temperature"})) == 0
             or not difference_is_more_than_3_degrees
         ):
             return None
 
-    elif "If you get multiple alternative routes from the tool" in line:
-        if "get_routes_from_start_to_destination" not in performed_action_names:
+    elif rule_id == "020":
+        if not route_lookup:
             return None
         return (
             line
-            + " Apply this policy only to route results that contain multiple "
-            "alternatives. Prior explicit user authorization to start "
-            "navigation counts as authorization, so do not require redundant "
-            "confirmation. Even with prior authorization, the assistant must "
-            "still tell the user about the fastest and shortest route (or that "
-            "one route is both) and state the number of further alternatives "
-            "in a user-facing response. Evaluate every route-tool result "
-            "independently; a complete presentation for a later route query "
-            "does not repair an omitted presentation for an earlier query."
+            + " Apply this policy only to route results that contain multiple alternatives for a "
+            "single-stop route whose route the user has not selected. Mark it not applicable for route "
+            "results of a multi-stop route or of a change to an active route with intermediate stops "
+            "(another policy covers those), and for route results after the user selected the route, in "
+            "this or an earlier turn (named as the fastest, the shortest, a specific alternative, or "
+            "'according to my preferences'); for those, check only that the user was told which route "
+            "was set. Evaluate every unselected route result independently; a complete presentation for "
+            "a later route query does not repair an omitted presentation for an earlier query. Setting "
+            "the route in the navigation system before the user selected it does not follow the policy, "
+            "even if the options are presented afterwards."
         )
 
-    elif (
-        "route is presented in detail (fastest route, shortest route, or upon user detail request)"
-        in line
-    ):
-        if (
-            len(
-                performed_action_names.intersection(
-                    {"get_routes_from_start_to_destination"}
-                )
-            )
-            > 0
-        ):
-            return (
-                line
-                + " For this policy, first reason which routes were presented in detail, then evaluate if these routes include a toll road - if true this would be included in the list of road types else it's not present, then evaluate the policy for the routes identified to be presented in detail."
-            )
-        return None
-
-    elif (
-        "user asks for a multi-stop route and does not specify the route selection"
-        in line
-    ):
-        if (
-            len(
-                performed_action_names.intersection(
-                    {"get_routes_from_start_to_destination"}
-                )
-            )
-            == 0
-        ):
+    elif rule_id == "021":
+        if not route_lookup:
             return None
+        return (
+            line
+            + " For this policy, first reason which routes were presented in detail or set in the "
+            "navigation system, then evaluate if these routes include a toll road - if true this would be "
+            "included in the list of road types else it's not present, then evaluate the policy for the "
+            "routes identified."
+        )
+
+    elif rule_id == "022":
+        if not route_lookup:
+            return None
+        return (
+            line
+            + " Mark it not applicable for single-stop routes (another policy covers those). For segments "
+            "the user selected, check only that the selected route was set and the user was told which "
+            "route was set. A detailed presentation of the fastest and shortest route and a count of "
+            "alternatives are not required."
+        )
 
     return line
 
