@@ -4,6 +4,7 @@ import json
 import threading
 import os
 import random
+import re
 import traceback
 import warnings
 from concurrent.futures import ThreadPoolExecutor
@@ -195,6 +196,12 @@ def _reset_context_state(
     context_state.reset(token_context_config)
     fixed_context.reset(token_fixed_car_context)
     task_config.reset(token_task_config)
+
+
+def _safe_path_component(value: str) -> str:
+    """Replace characters that are illegal in Windows file names (e.g. the ':' in
+    Bedrock model IDs like '...-v1:0') so result paths can be checked out anywhere."""
+    return re.sub(r'[<>:"/\\|?*]', "-", str(value))
 
 
 def get_task_indices_to_run(
@@ -632,7 +639,7 @@ def main():
 
             # Determine task count for filename
             task_count = len(args.task_id_filter) if args.task_id_filter else (args.num_tasks if args.num_tasks != -1 else "all")
-            file_str = f"{args.log_dir}/{task_type}_{task_split}/{args.model.split('/')[-1]}{thinking_suffix}{interleaved_thinking_suffix}{reasoning_effort_suffix}-{args.temperature}_tasks_{task_count}_user-{args.user_model}{user_thinking_suffix}-{args.user_strategy}_{time_str}.json"
+            file_str = f"{args.log_dir}/{task_type}_{task_split}/{_safe_path_component(args.model.split('/')[-1])}{thinking_suffix}{interleaved_thinking_suffix}{reasoning_effort_suffix}-{args.temperature}_tasks_{task_count}_user-{_safe_path_component(args.user_model)}{user_thinking_suffix}-{args.user_strategy}_{time_str}.json"
 
             results = run(
                 args=args,
