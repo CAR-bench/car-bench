@@ -155,6 +155,10 @@ class HumanWebAgent(Agent):
         self.input_queue = input_queue
         self.output_queue = output_queue
         self._call_counter = 0
+        # Snapshot of the state/tools currently being awaited, so an LLM
+        # sidecar can play a turn on the human's behalf (see /api/llm-turn).
+        self._pending_state: Optional[AgentState] = None
+        self._pending_tools_info: Optional[List[Dict[str, Any]]] = None
 
     def get_init_state(self, system_prompt: str, initial_observation: str) -> AgentState:
         return AgentState(
@@ -169,9 +173,13 @@ class HumanWebAgent(Agent):
     ) -> Tuple[Dict[str, Any], AgentState]:
         # Signal the UI that we're waiting for agent input
         self.output_queue.put({"type": "waiting_for_input", "role": "agent"})
+        self._pending_state = state
+        self._pending_tools_info = tools_info
 
-        # Block until human provides input
+        # Block until human (or the LLM sidecar, via /api/llm-turn) provides input
         human_input = self.input_queue.get()
+        self._pending_state = None
+        self._pending_tools_info = None
 
         if human_input.get("type") == "stop":
             # Human ended session - send a respond action
@@ -686,6 +694,10 @@ def api_start():
         _session["done"] = False
         _session["wiki"] = env.wiki
         _session["tools_info"] = filtered_tools
+        # Kept so role=="agent" sessions can spin up an LLM sidecar on demand
+        # (see /api/llm-turn), even though the LLM agent isn't used directly.
+        _session["agent_model"] = agent_model
+        _session["agent_provider"] = agent_provider
 
         # Copy current context so context vars are available in the thread
         ctx = contextvars.copy_context()
@@ -732,6 +744,57 @@ def api_input():
     data = request.json
     _session["input_queue"].put(data)
     return jsonify({"status": "ok"})
+
+
+@app.route("/api/llm-turn", methods=["POST"])
+def api_llm_turn():
+    """Let an LLM play the current turn instead of the human (agent role only)."""
+    if not _session or _session.get("done"):
+        return jsonify({"error": "No active session", "done": True}), 400
+
+    if _session.get("role") != "agent":
+        return jsonify({"error": "LLM turn is only available when playing the agent role"}), 400
+
+    agent = _session.get("agent")
+    if not isinstance(agent, HumanWebAgent) or agent._pending_state is None:
+        return jsonify({"error": "Not currently waiting for an agent turn"}), 400
+
+    data = request.json or {}
+    model = data.get("model") or _session.get("agent_model", "claude-sonnet-4-5-20250929")
+    provider = data.get("provider") or _session.get("agent_provider", "anthropic")
+
+    try:
+        sidecar = ToolCallingAgent(
+            tools_info=agent._pending_tools_info,
+            wiki=_session.get("wiki", ""),
+            model=model,
+            provider=provider,
+            temperature=0.0,
+        )
+        next_message, _ = sidecar.generate_next_message(
+            agent._pending_state, agent._pending_tools_info
+        )
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+    tool_calls = next_message.get("tool_calls")
+    if tool_calls:
+        human_input = {
+            "type": "tool_calls",
+            "tool_calls": [
+                {
+                    "name": tc["function"]["name"],
+                    "args": json.loads(tc["function"]["arguments"] or "{}"),
+                }
+                for tc in tool_calls
+            ],
+        }
+    else:
+        human_input = {"type": "respond", "content": next_message.get("content") or ""}
+
+    _session["input_queue"].put(human_input)
+    return jsonify({"status": "ok", "message": human_input})
 
 
 @app.route("/api/events")

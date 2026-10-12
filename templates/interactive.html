@@ -297,6 +297,9 @@
   .btn-end {
     background: var(--error) !important;
   }
+  .btn-llm-turn {
+    background: #7c5cff !important;
+  }
 
   /* --- Right Side Panel (Tools) --- */
   .tools-panel {
@@ -785,7 +788,7 @@
     <!-- LLM Model Configuration -->
     <div id="llm-config-row" class="setup-row" style="background: var(--bg3); padding: 12px; border-radius: var(--radius); border: 1px solid var(--border);">
       <div id="agent-model-config">
-        <div style="font-size: 11px; font-weight: 600; color: var(--accent); margin-bottom: 8px;">🤖 Agent Model (LLM)</div>
+        <div id="agent-model-config-label" style="font-size: 11px; font-weight: 600; color: var(--accent); margin-bottom: 8px;">🤖 Agent Model (LLM)</div>
         <div class="setup-row" style="margin-bottom: 0;">
           <div class="setup-field">
             <label>Model</label>
@@ -938,6 +941,7 @@
       <div class="input-area">
         <textarea id="msg-input" placeholder="Type a message..." rows="1"
                   onkeydown="handleInputKey(event)"></textarea>
+        <button id="btn-llm-turn" class="btn-llm-turn hidden" onclick="llmTakeTurn()" title="Let the LLM play this one turn instead of typing/using tools yourself">Let LLM Play This Turn</button>
         <button id="btn-send" onclick="sendMessage()">Send</button>
       </div>
     </div>
@@ -969,6 +973,7 @@ let initialVehicleState = null;
 let polling = false;
 let pollGeneration = 0;
 let waitingForInput = false;
+let pendingLlmTurn = false;
 
 // =====================================================================
 // Setup Screen
@@ -978,8 +983,12 @@ function toggleLlmConfig() {
   const role = document.getElementById('setup-role').value;
   document.getElementById('role-info-user').classList.toggle('hidden', role !== 'user');
   document.getElementById('role-info-agent').classList.toggle('hidden', role !== 'agent');
-  // Show agent model config when human is user (LLM acts as agent)
-  document.getElementById('agent-model-config').classList.toggle('hidden', role !== 'user');
+  // Agent model config is always shown: it's the auto-agent when human plays
+  // the user, and the optional "let LLM play this turn" model when human plays the agent.
+  const agentConfigLabel = document.getElementById('agent-model-config-label');
+  agentConfigLabel.textContent = role === 'user'
+    ? '🤖 Agent Model (LLM)'
+    : '🤖 LLM Auto-Turn Model (optional)';
   // Show user model config when human is agent (LLM acts as user)
   document.getElementById('user-model-config').classList.toggle('hidden', role !== 'agent');
 }
@@ -1115,6 +1124,7 @@ async function startSession() {
 
     if (currentRole === 'user') {
       document.getElementById('msg-input').placeholder = 'Type your message as the driver...';
+      document.getElementById('btn-llm-turn').classList.add('hidden');
       // Hide tools panel — user role doesn't execute tools
       document.querySelector('.tools-panel').classList.add('hidden');
       // State freely visible for user role
@@ -1131,6 +1141,7 @@ async function startSession() {
       switchSideTab(document.querySelector('[data-pane="pane-task"]'));
     } else {
       document.getElementById('msg-input').placeholder = 'Type your response as the assistant...';
+      document.getElementById('btn-llm-turn').classList.remove('hidden');
       document.querySelector('.tools-panel').classList.remove('hidden');
       // State hidden by default for agent — must use get tools
       document.getElementById('state-hidden-notice').classList.remove('hidden');
@@ -1210,11 +1221,12 @@ function handleEvent(ev) {
       break;
 
     case 'agent_message':
-      if (currentRole === 'agent') {
+      if (currentRole === 'agent' && !pendingLlmTurn) {
         // Human typed this - already shown
       } else {
         addMessage('assistant', ev.content);
       }
+      pendingLlmTurn = false;
       removeWaitingIndicator();
       break;
 
@@ -1283,12 +1295,14 @@ function removeWaitingIndicator() {
 function disableInput() {
   document.getElementById('msg-input').disabled = true;
   document.getElementById('btn-send').disabled = true;
+  document.getElementById('btn-llm-turn').disabled = true;
   document.querySelectorAll('.tool-exec-btn').forEach(b => b.disabled = true);
 }
 
 function enableInput() {
   document.getElementById('msg-input').disabled = false;
   document.getElementById('btn-send').disabled = false;
+  if (currentRole === 'agent') document.getElementById('btn-llm-turn').disabled = false;
   document.querySelectorAll('.tool-exec-btn').forEach(b => b.disabled = false);
   document.getElementById('msg-input').focus();
 }
@@ -1495,6 +1509,33 @@ async function executeToolViaOrchestrator(toolName, toolArgs) {
     });
   } catch (e) {
     addSystemMessage('Error executing tool: ' + e.message);
+  }
+}
+
+async function llmTakeTurn() {
+  // Let an LLM play the current agent turn instead of the human.
+  if (!sessionActive || currentRole !== 'agent') return;
+  removeWaitingIndicator();
+  disableInput();
+  addSystemMessage('LLM is playing this turn\u2026');
+  pendingLlmTurn = true;
+  try {
+    const res = await fetch('/api/llm-turn', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: document.getElementById('setup-agent-model').value.trim(),
+        provider: document.getElementById('setup-agent-provider').value,
+      }),
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    // A tool call turn produces no agent_message event to consume the flag.
+    if (data.message && data.message.type === 'tool_calls') pendingLlmTurn = false;
+  } catch (e) {
+    addSystemMessage('Error running LLM turn: ' + e.message);
+    pendingLlmTurn = false;
+    enableInput();
   }
 }
 
